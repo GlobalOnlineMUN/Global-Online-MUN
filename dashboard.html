@@ -32,20 +32,25 @@
 <section id="dashboard">
   <h2>Participant Dashboard</h2>
   <p class="center">Admin panel to manage GOMUN Academy participants.</p>
-  <table>
+
+  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 20px;">
+    <table id="participantsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>School</th>
+          <th>Level</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="participantsBody">
+        </tbody>
+    </table>
+  </div>
+  </section>
     <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>School</th>
-        <th>Level</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="participantsTable"></tbody>
-  </table>
-</section>
 <script src="script.js"></script>
 </body>
 </html>
