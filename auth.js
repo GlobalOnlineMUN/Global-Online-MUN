@@ -25,16 +25,20 @@ form.addEventListener("submit", (e) => {
   const users = JSON.parse(localStorage.getItem("gomunUsers")) || [];
 
   if (isLoginMode) {
-    // Admin Detection (Hidden)
+    // Admin Detection
     if (username === ADMIN_USER && password === ADMIN_PASS) {
       localStorage.setItem("gomunRole", "admin");
+      localStorage.setItem("username", "Admin"); // Track the active session
       window.location.href = "academy.html";
       return;
     }
+    
     // User Detection
     const user = users.find(u => u.user === username && u.pass === password);
     if (user) {
       localStorage.setItem("gomunRole", "user");
+      // CRITICAL: Save the username so the Academy can track progress for this specific user
+      localStorage.setItem("username", username); 
       window.location.href = "academy.html";
     } else {
       error.textContent = "Invalid credentials.";
@@ -44,8 +48,21 @@ form.addEventListener("submit", (e) => {
     if (users.find(u => u.user === username)) {
       error.textContent = "Username already exists.";
     } else {
+      // Save the user object
       users.push({ user: username, pass: password });
       localStorage.setItem("gomunUsers", JSON.stringify(users));
+      
+      // Also initialize them in the participants list so they appear in the dashboard immediately
+      const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+      participants.push({
+        fullName: username,
+        email: username + "@gomun.org", // Placeholder if email isn't in signup
+        currentModule: "Not Started",
+        examScore: "N/A",
+        completed: false
+      });
+      localStorage.setItem("gomunParticipants", JSON.stringify(participants));
+
       alert("Account created! Please login.");
       toggleAuth();
     }
