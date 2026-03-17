@@ -545,10 +545,21 @@
 
 <script>
   function showModule(m) {
-    document.querySelectorAll('.module-container').forEach(div => div.classList.remove('active-module'));
-    document.getElementById('module-' + m).classList.add('active-module');
-    window.scrollTo(0,0);
+  // Update current module in storage
+  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+  const currentUser = localStorage.getItem("username"); // Matches the username used at login
+  
+  const userIndex = participants.findIndex(p => p.fullName === currentUser || p.email === currentUser);
+  if (userIndex !== -1) {
+    participants[userIndex].currentModule = "Module " + m;
+    localStorage.setItem("gomunParticipants", JSON.stringify(participants));
   }
+
+  // Visual switching logic
+  document.querySelectorAll('.module-container').forEach(div => div.classList.remove('active-module'));
+  document.getElementById('module-' + m).classList.add('active-module');
+  window.scrollTo(0,0);
+}
 
   function submitExam() {
     const form = document.getElementById('examForm');
