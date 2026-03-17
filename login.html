@@ -2,37 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>GOMUN Portal | Login</title>
+  <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOMUN Portal</title>
-  <link rel="stylesheet" href="style 2.css" />
 </head>
-<body style="background: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+<body class="login-body">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h1 id="authTitle">GOMUN Portal</h1>
+      <p class="subtitle" id="authSubtitle">Access the GOMUN Academy</p>
+      
+      <form id="loginForm" class="login-form">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" id="authBtn">Login</button>
+      </form>
 
-  <div class="form-card" style="width: 100%; max-width: 400px;">
-    <h1 id="authTitle" style="text-align: center; color: #1d4ed8; margin-bottom: 20px;">Login</h1>
-    
-    <form id="authForm">
-      <div id="adminFields" style="display:none; margin-bottom: 15px;">
-        <label>Account Type:</label>
-        <select id="role">
-          <option value="user">Student</option>
-          <option value="admin">Admin</option>
-        </select>
+      <p id="error" class="error"></p>
+      <div class="auth-toggle">
+        <p id="toggleText">Don't have an account? <span onclick="toggleAuth()">Sign Up</span></p>
       </div>
-
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit" id="authBtn">Login</button>
-    </form>
-
-    <p id="error" style="color: #dc2626; text-align: center; margin-top: 10px;"></p>
-    
-    <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-      <span id="toggleText">Don't have an account?</span> 
-      <a href="#" id="toggleAuth" style="color: #1d4ed8; font-weight: bold; text-decoration: none;">Sign Up</a>
-    </p>
+      <p class="hint">Authorized delegates only</p>
+    </div>
   </div>
-
   <script src="auth.js"></script>
 </body>
 </html>
