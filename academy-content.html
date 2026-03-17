@@ -3,78 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOMUN Academy | Full Curriculum</title>
+  <title>GOMUN Academy | Official Curriculum</title>
   <link rel="stylesheet" href="style.css">
   <style>
     :root { --primary: #1d4ed8; --secondary: #64748b; --success: #16a34a; --bg: #f8fafc; }
-    body { background: var(--bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .module-container { 
-      display: none; max-width: 900px; margin: 30px auto; background: white; 
-      padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-    }
-    .active-module { display: block; animation: slideIn 0.4s ease-out; }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    body { background: var(--bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.7; color: #1e293b; }
+    .module-container { display: none; max-width: 900px; margin: 30px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    .active-module { display: block; animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    .lesson-header { color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 30px; margin-bottom: 15px; }
-    .sub-lesson { font-weight: bold; color: #334155; margin-top: 20px; display: block; }
-    .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-    .term-card { background: #f1f5f9; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary); }
-    .tip-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 15px 0; font-style: italic; }
-    .exercise-box { background: #f0fdf4; border: 1px solid var(--success); padding: 20px; border-radius: 12px; margin: 25px 0; }
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    h1 { color: var(--primary); font-size: 2rem; border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+    .lesson-title { background: #eff6ff; color: #1e40af; padding: 10px 15px; border-radius: 8px; font-weight: bold; margin-top: 30px; font-size: 1.25rem; display: block; }
+    .sub-header { font-weight: bold; color: #334155; margin-top: 20px; display: block; font-size: 1.1rem; text-decoration: underline; }
+    
+    .tip-box { background: #fffbeb; border-left: 5px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+    .exercise-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 25px; border-radius: 12px; margin: 25px 0; }
+    .outcome-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; margin-top: 40px; }
+    .example-block { background: #f1f5f9; padding: 15px; border-radius: 8px; font-family: monospace; margin: 10px 0; border-left: 3px solid #64748b; }
+    
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
     .btn-nav { padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
     .btn-next { background: var(--primary); color: white; }
     .btn-prev { background: var(--secondary); color: white; }
     
-    ul li { margin-bottom: 10px; }
-    hr { border: 0; border-top: 1px solid #e2e8f0; margin: 25px 0; }
+    ul, ol { margin-bottom: 20px; padding-left: 25px; }
+    li { margin-bottom: 10px; }
+    .mcq-card { background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
     
-    @media (max-width: 600px) { 
-        .module-container { width: 95%; padding: 20px; margin: 10px auto; } 
-        .term-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px) { .module-container { width: 95%; padding: 20px; } }
   </style>
 </head>
 <body>
 
 <nav>
   <div class="logo">GOMUN Academy</div>
-  <div class="links"><a href="index.html">Exit Academy</a></div>
+  <div class="links"><a href="dashboard.html">Return to Dashboard</a></div>
 </nav>
 
 <div id="module-1" class="module-container active-module">
   <h1>Module 1: Introduction to the UN and MUN</h1>
   <p><strong>Objective:</strong> Understand the United Nations system, different types of committees, and the role and responsibilities of a delegate in MUN.</p>
   
-  <h3 class="lesson-header">Lesson 1: Understanding the United Nations</h3>
-  <p>The United Nations (UN) is an international organization founded in 1945, right after World War II, to prevent future conflicts, promote peace, and create a platform for countries to cooperate on global issues.</p>
+  <span class="lesson-title">Lesson 1: Understanding the United Nations</span>
+  <p><strong>What is the UN?</strong></p>
+  <p>The United Nations (UN) is an international organization founded in 1945, right after World War II, to prevent future conflicts, promote peace, and create a platform for countries to cooperate on global issues. Its mission is not only to maintain international peace, but also to advance human rights, economic development, and humanitarian aid worldwide.</p>
+  <p><strong>Key points to remember:</strong></p>
   <ul>
     <li>The UN has 193 member states.</li>
-    <li>It addresses global challenges like climate change, refugees, and pandemics.</li>
-    <li>It provides forums for diplomacy so countries negotiate instead of resorting to war.</li>
+    <li>It addresses global challenges like climate change, refugees, conflicts, and pandemics.</li>
+    <li>The UN provides forums for diplomacy so that countries can negotiate instead of resorting to war.</li>
   </ul>
 
-  <span class="sub-lesson">The Six Main Organs of the UN:</span>
-  <div class="term-grid">
-    <div class="term-card"><strong>1. General Assembly (UNGA):</strong> 193 members. One vote each. Non-binding resolutions.</div>
-    <div class="term-card"><strong>2. Security Council (UNSC):</strong> 15 members. 5 Permanent (US, UK, FR, CH, RU). Binding resolutions.</div>
-    <div class="term-card"><strong>3. ECOSOC:</strong> Coordinates economic and social programs (WHO, UNICEF).</div>
-    <div class="term-card"><strong>4. ICJ:</strong> Settles legal disputes between countries.</div>
-    <div class="term-card"><strong>5. Secretariat:</strong> Administrative body led by the Secretary-General.</div>
-    <div class="term-card"><strong>6. Trusteeship Council:</strong> Currently inactive.</div>
+  <span class="sub-header">The Six Main Organs of the UN</span>
+  <ol>
+    <li><strong>General Assembly (UNGA):</strong> Composed of all 193 member states. Each country has one vote. Focus: discuss global issues, pass non-binding resolutions. Example: The UNGA may debate climate action.</li>
+    <li><strong>Security Council (UNSC):</strong> 15 members: 5 permanent (US, UK, France, China, Russia) and 10 rotating. Passes binding resolutions regarding peace and security.</li>
+    <li><strong>Economic and Social Council (ECOSOC):</strong> Coordinates international economic and social programs. Works with WHO, UNICEF, and UNDP.</li>
+    <li><strong>International Court of Justice (ICJ):</strong> Settles legal disputes between countries.</li>
+    <li><strong>Secretariat:</strong> The UN’s administrative body led by the Secretary-General.</li>
+    <li><strong>Trusteeship Council:</strong> Currently inactive.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>Tip for delegates:</strong> Always know the difference between binding and non-binding resolutions. UNSC resolutions can be enforced; UNGA resolutions cannot, but they carry international moral weight.
   </div>
-  <div class="tip-box">Tip: UNSC resolutions can be enforced; UNGA resolutions carry international moral weight but are not binding.</div>
 
-  <h3 class="lesson-header">Lesson 2: Types of MUN Committees</h3>
+  <span class="lesson-title">Lesson 2: Types of MUN Committees</span>
   <ul>
-    <li><strong>GA Committees:</strong> Large (100+ delegates). Focus on policy-making.</li>
-    <li><strong>Specialized Agencies:</strong> Technical (WHO, UNICEF, UNDP).</li>
-    <li><strong>Crisis Committees:</strong> Fast-paced, real-time scenarios.</li>
+    <li><strong>General Assembly Committees:</strong> Large committees (100+ delegates). Focus: policy-making. Example: Third Committee (Human Rights).</li>
+    <li><strong>Security Council (UNSC):</strong> Small committee (15 delegates). Decisions are binding.</li>
+    <li><strong>Specialized Agencies:</strong> Focused, technical committees like WHO, UNICEF, and UNDP.</li>
+    <li><strong>Crisis Committees:</strong> Fast-paced simulations. Delegates act quickly and draft resolutions in real time.</li>
   </ul>
 
-  <h3 class="lesson-header">Lesson 3: Role of a Delegate</h3>
-  <p>Your responsibilities: Research, Position Papers, Debate & Negotiation, and Diplomacy.</p>
-  <div class="exercise-box"><strong>Exercise:</strong> Draft a 3-sentence opening statement for your country on climate change using formal language.</div>
+  <div class="exercise-box">
+    <strong>Exercise:</strong> Research one committee (UNSC, UNGA, or WHO) and write 3 bullet points describing its function.
+  </div>
+
+  <span class="lesson-title">Lesson 3: Role of a Delegate</span>
+  <ol>
+    <li><strong>Research:</strong> Study country policies, allies, and context.</li>
+    <li><strong>Position Papers:</strong> Write formal documents summarizing your country’s stance.</li>
+    <li><strong>Debate & Negotiation:</strong> Speak in committee, form alliances, and negotiate.</li>
+    <li><strong>Diplomacy:</strong> Act professionally and respect opposing viewpoints.</li>
+  </ol>
+
+  <div class="example-block">
+    <strong>Example:</strong> Country: Egypt | Topic: Climate Change <br>
+    "Egypt recognizes the urgent need for renewable energy in Africa and encourages member states to contribute..."
+  </div>
+
+  <span class="lesson-title">Lesson 4: MUN Terms You Must Know</span>
+  <ul>
+    <li><strong>Delegate:</strong> Student representing a country.</li>
+    <li><strong>Resolution:</strong> Formal proposal drafted to solve an issue.</li>
+    <li><strong>Motion:</strong> Formal request for a specific action.</li>
+    <li><strong>Point:</strong> Procedural question or objection.</li>
+    <li><strong>Caucus:</strong> Short break to negotiate or strategize.</li>
+  </ul>
+
+  <div class="exercise-box">
+    <strong>Practice Exercise: Scenario</strong> <br>
+    You are representing Brazil in the UNGA Third Committee. Topic: refugee rights in South America. <br>
+    1. Research Brazil’s policy. 2. Write a 3-4 sentence position statement. 3. Identify one ally and opponent.
+  </div>
+
+  <div class="outcome-box">
+    <strong>Outcome:</strong> By the end of this module, delegates will understand UN structure, identify committee types, comprehend responsibilities, and know basic terminology.
+  </div>
 
   <div class="nav-buttons">
     <div></div>
@@ -84,27 +120,50 @@
 
 <div id="module-2" class="module-container">
   <h1>Module 2: Rules of Procedure (RoP)</h1>
-  <p><strong>Objective:</strong> Learn essential procedures, motions, points, and voting.</p>
+  <p><strong>Objective:</strong> Learn essential MUN procedures, including motions, points, debate flow, voting, and amendments.</p>
 
-  <h3 class="lesson-header">Lesson 2: Motions</h3>
+  <span class="lesson-title">Lesson 1: Introduction to RoP</span>
+  <p>Rules govern how debates are conducted, how decisions are made, and how delegates interact. It ensures orderly debate and gives delegates fair opportunity to speak.</p>
+
+  <span class="lesson-title">Lesson 2: Motions</span>
   <ul>
-    <li><strong>Motion to Open Debate:</strong> Begin discussion on the agenda.</li>
-    <li><strong>Moderated Caucus:</strong> Short, timed speeches on subtopics.</li>
-    <li><strong>Unmoderated Caucus:</strong> Informal discussion for negotiating and drafting.</li>
+    <li><strong>Motion to Open Debate:</strong> Begin discussion on the topic.</li>
+    <li><strong>Motion to Close Debate:</strong> End discussion and move to voting.</li>
+    <li><strong>Motion for Moderated Caucus:</strong> Short, timed speeches on a subtopic.</li>
+    <li><strong>Motion for Unmoderated Caucus:</strong> Informal discussion for negotiating and drafting.</li>
+    <li><strong>Motion to Adjourn/End Session:</strong> End the committee session.</li>
     <li><strong>Motion to Table the Topic:</strong> Postpone debate temporarily.</li>
   </ul>
 
-  <h3 class="lesson-header">Lesson 3: Points</h3>
-  <div class="term-grid">
-    <div class="term-card"><strong>Point of Order:</strong> Correct procedural mistakes.</div>
-    <div class="term-card"><strong>Point of Personal Privilege:</strong> Issues like "I cannot hear the speaker."</div>
-    <div class="term-card"><strong>Point of Information:</strong> Ask a question to a speaker.</div>
-    <div class="term-card"><strong>Point of Inquiry:</strong> Ask the chair a procedural question.</div>
-  </div>
+  <span class="lesson-title">Lesson 3: Points</span>
+  <ul>
+    <li><strong>Point of Order:</strong> Correct procedural mistakes.</li>
+    <li><strong>Point of Personal Privilege:</strong> Raise personal issues (e.g., volume).</li>
+    <li><strong>Point of Information:</strong> Ask a question to a speaker.</li>
+    <li><strong>Point of Inquiry:</strong> Ask the chair procedural questions.</li>
+    <li><strong>Right of Reply:</strong> Respond to personal attacks.</li>
+  </ul>
 
-  <h3 class="lesson-header">Lesson 5: Voting & Amendments</h3>
-  <p><strong>Friendly Amendment:</strong> Supported by all sponsors; added directly. <br> 
-     <strong>Unfriendly Amendment:</strong> Not supported by all; requires a vote.</p>
+  <span class="lesson-title">Lesson 4: Debate Flow</span>
+  <p>Sequence: 1. Roll Call -> 2. Speakers’ List -> 3. Formal Debate -> 4. Moderated Caucus -> 5. Unmoderated Caucus -> 6. Resolution Writing -> 7. Voting.</p>
+
+  <span class="lesson-title">Lesson 5: Voting Procedures</span>
+  <ul>
+    <li><strong>Roll Call Vote:</strong> Each country votes Yes, No, or Abstain.</li>
+    <li><strong>Simple Majority:</strong> >50% needed.</li>
+    <li><strong>Two-Thirds Majority:</strong> Required for critical resolutions (e.g., sanctions).</li>
+    <li><strong>Division of the Question:</strong> Separates clauses for individual voting.</li>
+  </ul>
+
+  <span class="lesson-title">Lesson 6: Amendments</span>
+  <ul>
+    <li><strong>Friendly:</strong> Supported by all sponsors; added directly.</li>
+    <li><strong>Unfriendly:</strong> Not supported by all; requires a vote.</li>
+  </ul>
+
+  <div class="exercise-box">
+    <strong>Exercise 4:</strong> Take this clause: “Urges member states to plant trees globally.” Propose a friendly amendment that adds a measurable goal.
+  </div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(1)">← Back</button>
@@ -114,41 +173,57 @@
 
 <div id="module-3" class="module-container">
   <h1>Module 3: Public Speaking and Diplomacy</h1>
-  <p><strong>Objective:</strong> Build confidence, master rhetoric, and professional conduct.</p>
+  <p><strong>Objective:</strong> Build confidence in public speaking, master rhetoric, and develop professional diplomatic conduct.</p>
 
-  <h3 class="lesson-header">Lesson 1: Structure of a Speech</h3>
+  <span class="lesson-title">Lesson 1: Foundations of Public Speaking</span>
+  <span class="sub-header">Structure of a Speech</span>
   <ol>
-    <li><strong>Introduction:</strong> Greet the chair and introduce country/topic.</li>
-    <li><strong>Body:</strong> Present arguments logically using facts and data.</li>
+    <li><strong>Introduction:</strong> Greet the chair and delegates formally.</li>
+    <li><strong>Body:</strong> Present arguments logically using facts and statistics.</li>
     <li><strong>Conclusion:</strong> Summarize stance and suggest actionable steps.</li>
   </ol>
 
-  <h3 class="lesson-header">Lesson 2: Persuasive Language</h3>
-  <p>Use evidence, appeal to shared interests, and use inclusive language. <br>
-  Replace "You must" with "The delegation encourages..."</p>
+  <span class="lesson-title">Lesson 2: Persuasive Language</span>
+  <p>Use evidence, appeal to shared interests, and use inclusive language. Replace "must" with "encourage" or "propose."</p>
 
   <div class="exercise-box">
-    <strong>Exercise:</strong> Rewrite "You are wrong, your policy will fail" into diplomatic form.
+    <strong>Exercise:</strong> Rewrite these: <br>
+    1. "You are wrong." <br>
+    2. "Our country will not accept compromise." <br>
+    3. "You must follow our proposal."
   </div>
+
+  <span class="lesson-title">Lesson 3 & 4: Nonverbal Communication & Conduct</span>
+  <ul>
+    <li><strong>Body Language:</strong> Posture, gestures, and eye contact.</li>
+    <li><strong>Conduct:</strong> Always respect other delegates; avoid personal attacks; listen actively.</li>
+  </ul>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(2)">← Back</button>
-    <button class="btn-nav btn-next" onclick="showModule(4)">Module 4: Research & Papers →</button>
+    <button class="btn-nav btn-next" onclick="showModule(4)">Module 4: Research →</button>
   </div>
 </div>
 
 <div id="module-4" class="module-container">
   <h1>Module 4: Research and Position Papers</h1>
-  <h3 class="lesson-header">Lesson 2: Country Research</h3>
-  <p>Research your political system, national policies, and international alliances. Identify Priorities (Non-negotiable) vs. Negotiable points.</p>
+  <p><strong>Objective:</strong> Teach delegates how to research their country, develop a stance, and write professional papers.</p>
 
-  <h3 class="lesson-header">Lesson 4: Writing a Position Paper</h3>
-  <ul>
+  <span class="lesson-title">Lesson 2: Conducting Research</span>
+  <p>Review political systems, international alliances, and past UN resolutions. Identify <strong>Priority 1 (Non-negotiable)</strong>, <strong>Priority 2 (Negotiable)</strong>, and <strong>Priority 3 (Secondary)</strong>.</p>
+
+  <span class="lesson-title">Lesson 4: Writing a Position Paper</span>
+  <ol>
     <li><strong>Header:</strong> Committee, Topic, Country.</li>
-    <li><strong>Background:</strong> Context and history of the issue.</li>
-    <li><strong>Country Policy:</strong> Your initiatives and stance.</li>
-    <li><strong>Proposed Solutions:</strong> Concrete actions.</li>
-  </ul>
+    <li><strong>Background:</strong> Provide context and historical facts.</li>
+    <li><strong>Country Policy:</strong> Explain priorities and initiatives.</li>
+    <li><strong>Proposed Solutions:</strong> Suggest concrete, realistic actions.</li>
+    <li><strong>Conclusion:</strong> Reaffirm commitment to collaboration.</li>
+  </ol>
+
+  <div class="exercise-box">
+    <strong>Exercise:</strong> Write a 1-paragraph position paper summarizing your country’s stance on your current assigned topic.
+  </div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(3)">← Back</button>
@@ -158,11 +233,27 @@
 
 <div id="module-5" class="module-container">
   <h1>Module 5: Resolution Writing</h1>
-  <h3 class="lesson-header">Lesson 2: Structure</h3>
-  <p><strong>Preambulatory Clauses:</strong> Describe the background (starts with <i>Recalling, Recognizing, Deeply concerned</i>).</p>
-  <p><strong>Operative Clauses:</strong> Actionable solutions (starts with <i>Encourages, Urges, Requests</i>).</p>
-  
-  <div class="tip-box">Sponsors draft the resolution; Signatories support the discussion of it.</div>
+  <p><strong>Objective:</strong> Teach delegates how to draft formal UN resolutions, clauses, and amendments.</p>
+
+  <span class="lesson-title">Lesson 2: Structure</span>
+  <p><strong>Preambulatory Clauses:</strong> Describe background (starts with <i>Recalling, Recognizing, Deeply concerned</i>). Use commas to separate.</p>
+  <p><strong>Operative Clauses:</strong> Actionable solutions (starts with <i>Encourages, Urges, Requests</i>). Use semicolons and numbering.</p>
+
+  <span class="sub-header">Sponsors and Signatories</span>
+  <ul>
+    <li><strong>Sponsors:</strong> Drafted and fully support.</li>
+    <li><strong>Signatories:</strong> Support discussion only.</li>
+  </ul>
+
+  <span class="lesson-title">Lesson 6: Amendments</span>
+  <ul>
+    <li><strong>Friendly:</strong> Accepted by all sponsors automatically.</li>
+    <li><strong>Unfriendly:</strong> Proposed without full approval; requires a vote.</li>
+  </ul>
+
+  <div class="exercise-box">
+    <strong>Drafting Exercise:</strong> Draft 3 preambulatory clauses and 3 operative clauses for a resolution on Climate Change.
+  </div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(4)">← Back</button>
@@ -172,16 +263,21 @@
 
 <div id="module-6" class="module-container">
   <h1>Module 6: Negotiation and Lobbying</h1>
-  <h3 class="lesson-header">Lesson 2: Forming Blocs</h3>
-  <p><strong>Regional Blocs:</strong> (African Union, EU). <br> 
-     <strong>Interest-based Blocs:</strong> Countries with shared policy goals.</p>
-  
-  <h3 class="lesson-header">Lesson 4: Compromise Techniques</h3>
+  <p><strong>Objective:</strong> Teach delegates how to form alliances, lobby, and negotiate compromises.</p>
+
+  <span class="lesson-title">Lesson 2: Forming Blocs</span>
   <ul>
-    <li>Concede minor points while keeping core interests.</li>
-    <li>Bundle clauses to include multiple proposals.</li>
-    <li>Use friendly amendments to win supporters.</li>
+    <li><strong>Regional Blocs:</strong> African Union, EU, ASEAN.</li>
+    <li><strong>Interest-based Blocs:</strong> Shared policy goals.</li>
+    <li><strong>Issue-specific Blocs:</strong> Temporary alliances.</li>
   </ul>
+
+  <span class="lesson-title">Lesson 3 & 4: Lobbying & Compromise</span>
+  <p>Highlight shared interests, offer compromises, and use evidence. Techniques: Concede minor points, bundle clauses, and use friendly amendments.</p>
+
+  <div class="tip-box">
+    <strong>Key Phrase:</strong> "The delegation of [Country] invites you to co-sponsor clause 2 for mutual benefit."
+  </div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(5)">← Back</button>
@@ -191,12 +287,24 @@
 
 <div id="module-7" class="module-container">
   <h1>Module 7: MUN Simulation Preparation</h1>
-  <h3 class="lesson-header">The Checklist</h3>
+  <p><strong>Objective:</strong> Combine all skills for a full conference simulation.</p>
+
+  <span class="lesson-title">The Checklist</span>
   <ul>
-    <li><strong>Pre-Conference:</strong> Position Paper, Opening Speech, Research.</li>
-    <li><strong>During Committee:</strong> Roll Call, Speakers' List, Caucuses, Resolution Drafting.</li>
-    <li><strong>Voting:</strong> Ensure bloc consistency and maintain diplomacy.</li>
+    <li><strong>Pre-Conference:</strong> Research, Position Paper, Opening Speech.</li>
+    <li><strong>First Day:</strong> Roll Call, Speakers' List, Opening Speech.</li>
+    <li><strong>During Debate:</strong> Moderated caucus speeches, taking notes.</li>
+    <li><strong>Caucus:</strong> Form blocs, draft resolutions, strategic lobbying.</li>
+    <li><strong>Voting:</strong> Roll call vote, simple/two-thirds majority rules.</li>
   </ul>
+
+  <div class="exercise-box">
+    <strong>Mock Simulation:</strong> 1. Conduct roll call. 2. Give opening speeches. 3. Run a moderated caucus. 4. Draft resolutions. 5. Voting.
+  </div>
+
+  <div class="outcome-box">
+    🎯 <strong>Congratulations!</strong> Completion of Modules 1–7 means you are ready for GOMUN or any MUN conference.
+  </div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(6)">← Back</button>
@@ -208,28 +316,79 @@
   <h1>GOMUN Academy – MCQ Assessment</h1>
   <p>Passing Score: 70% (14/20)</p>
   <hr>
+
+  <div class="mcq-card"><p>1. Which of the following is NOT a type of UN committee?</p>
+    <input type="radio" name="q1"> a) UNGA <br> <input type="radio" name="q1"> b) UNSC <br> <input type="radio" name="q1"> c) UNHRC <br> <input type="radio" name="q1"> d) IMF (Correct)</div>
   
-  <div class="exercise-box">
-    <p><strong>1. Which of the following is NOT a type of UN committee?</strong></p>
-    <input type="radio" name="q1"> a) UNGA <br>
-    <input type="radio" name="q1"> b) UNSC <br>
-    <input type="radio" name="q1"> d) IMF (Correct)
-  </div>
+  <div class="mcq-card"><p>2. Which motion is used to end debate and proceed to voting?</p>
+    <input type="radio" name="q2"> a) Point of Order <br> <input type="radio" name="q2"> b) Motion to Close Debate (Correct) <br> <input type="radio" name="q2"> c) Point of Inquiry</div>
 
-  <div class="exercise-box">
-    <p><strong>2. Which motion is used to end debate and proceed to voting?</strong></p>
-    <input type="radio" name="q2"> a) Point of Order <br>
-    <input type="radio" name="q2"> b) Motion to Close Debate (Correct)
-  </div>
+  <div class="mcq-card"><p>3. During debate, which point allows you to ask a question for clarification?</p>
+    <input type="radio" name="q3"> a) Point of Order <br> <input type="radio" name="q3"> b) Point of Inquiry (Correct) <br> <input type="radio" name="q3"> c) Point of Personal Privilege</div>
 
-  <p><i>Note: Full 20-question bank is ready for integration.</i></p>
+  <div class="mcq-card"><p>4. Which of the following is NOT a valid point or motion in MUN RoP?</p>
+    <input type="radio" name="q4"> a) Point of Order <br> <input type="radio" name="q4"> b) Motion to Close Debate <br> <input type="radio" name="q4"> c) Motion to Extend Caucus <br> <input type="radio" name="q4"> d) Motion to Disband Committee (Correct)</div>
+
+  <div class="mcq-card"><p>5. The speakers’ list is used to:</p>
+    <input type="radio" name="q5"> a) End debate <br> <input type="radio" name="q5"> b) Track speakers and allow systematic speeches (Correct)</div>
+
+  <div class="mcq-card"><p>6. Which phrase is most appropriate and diplomatic for a speech?</p>
+    <input type="radio" name="q6"> a) "You must support us." <br> <input type="radio" name="q6"> b) "The delegation encourages your support..." (Correct)</div>
+
+  <div class="mcq-card"><p>7. Key elements of a strong MUN speech include:</p>
+    <input type="radio" name="q7"> a) Jokes <br> <input type="radio" name="q7"> b) Clear structure, persuasive language, formal tone (Correct)</div>
+
+  <div class="mcq-card"><p>8. How long should a typical opening speech be?</p>
+    <input type="radio" name="q8"> a) 30s <br> <input type="radio" name="q8"> b) 1–2 minutes (Correct)</div>
+
+  <div class="mcq-card"><p>9. Which is NOT part of a position paper?</p>
+    <input type="radio" name="q9"> a) Background <br> <input type="radio" name="q9"> b) Policy <br> <input type="radio" name="q9"> c) Solutions <br> <input type="radio" name="q9"> d) Personal opinion (Correct)</div>
+
+  <div class="mcq-card"><p>10. Why is research important in MUN?</p>
+    <input type="radio" name="q10"> a) Opinion writing <br> <input type="radio" name="q10"> b) To know country stance, allies, and evidence (Correct)</div>
+
+  <div class="mcq-card"><p>11. Which sources are most reliable for country research?</p>
+    <input type="radio" name="q11"> a) UN reports, official gov websites (Correct) <br> <input type="radio" name="q11"> b) Wikipedia only</div>
+
+  <div class="mcq-card"><p>12. Which is an example of a preambulatory clause?</p>
+    <input type="radio" name="q12"> a) Encourages states... <br> <input type="radio" name="q12"> b) Recalling the Paris Agreement (Correct)</div>
+
+  <div class="mcq-card"><p>13. Which is an example of an operative clause?</p>
+    <input type="radio" name="q13"> a) Deeply concerned... <br> <input type="radio" name="q13"> b) Encourages regional projects (Correct)</div>
+
+  <div class="mcq-card"><p>14. Which verb is appropriate for starting an operative clause?</p>
+    <input type="radio" name="q14"> a) Recalling <br> <input type="radio" name="q14"> b) Encourages (Correct)</div>
+
+  <div class="mcq-card"><p>15. What is the purpose of co-sponsors?</p>
+    <input type="radio" name="q15"> a) Oppose <br> <input type="radio" name="q15"> b) Support and promote the resolution (Correct)</div>
+
+  <div class="mcq-card"><p>16. Best approach to gain support for your resolution?</p>
+    <input type="radio" name="q16"> a) Threaten <br> <input type="radio" name="q16"> b) Highlight shared interests and benefits (Correct)</div>
+
+  <div class="mcq-card"><p>17. What is a friendly amendment?</p>
+    <input type="radio" name="q17"> a) Minor change approved by all sponsors (Correct) <br> <input type="radio" name="q17"> b) Vote required</div>
+
+  <div class="mcq-card"><p>18. What is a key compromise strategy?</p>
+    <input type="radio" name="q18"> a) Concede non-critical points while keeping core interests (Correct)</div>
+
+  <div class="mcq-card"><p>19. During an unmoderated caucus, a delegate should:</p>
+    <input type="radio" name="q19"> a) Draft resolutions, negotiate, form blocs (Correct)</div>
+
+  <div class="mcq-card"><p>20. Most important pre-conference task?</p>
+    <input type="radio" name="q20"> a) Research, position paper, opening speech (Correct)</div>
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(7)">← Back</button>
-    <button class="btn-nav btn-next" onclick="alert('Assessment Submitted! Your progress has been saved.'); window.location.href='dashboard.html'">Submit Assessment</button>
+    <button class="btn-nav btn-next" onclick="alert('Congratulations! Assessment submitted.'); window.location.href='dashboard.html'">Submit & Finish</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+  function showModule(m) {
+    document.querySelectorAll('.module-container').forEach(div => div.classList.remove('active-module'));
+    document.getElementById('module-' + m).classList.add('active-module');
+    window.scrollTo(0,0);
+  }
+</script>
 </body>
 </html>
