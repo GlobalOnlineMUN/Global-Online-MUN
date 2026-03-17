@@ -2,59 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GOMUN Academy | Global Online MUN</title>
-  <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    // Only allow logged-in users to access Academy
-    const role = localStorage.getItem("gomunRole");
-    if (!role) {
-      window.location.href = "login.html";
-    }
-  </script>
+  <title>Academy | GOMUN</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <nav>
     <div class="logo">GOMUN</div>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="academy.html">Academy</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="certificates.html">Certificates</a>
-      <button onclick="logout()" class="btn-logout">Logout</button>
-    </div>
+    <div class="links"><a href="index.html">Home</a><a href="academy.html">Academy</a><button onclick="logout()" class="btn-logout">Logout</button></div>
   </nav>
-  <section id="academy">
-    <h2>GOMUN Academy</h2>
-    <p class="center">
-      Structured online training for beginners to prepare for international MUN.
-    </p>
-    <div class="academy" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-      <div class="academy-info">
-        <ul>
-          <li><strong>Duration:</strong> 7–10 days</li>
-          <li><strong>Outcome:</strong> Certificate of Completion</li>
-        </ul>
-        <div class="levels">
-          <div style="background:#f8fafc; padding:10px; margin-bottom:5px;"><strong>Level 1:</strong> UN system & Public Speaking</div>
-          <div style="background:#f8fafc; padding:10px; margin-bottom:5px;"><strong>Level 2:</strong> Resolution writing & lobbying</div>
-        </div>
-      </div>
-      <form id="registerForm" class="form">
-        <h3>Academy Registration</h3>
+
+  <section class="academy-layout">
+    <div class="info-side">
+      <h2>GOMUN Academy</h2>
+      <p>A structured program for beginners to master MUN procedures.</p>
+      <ul>
+        <li>7-10 Days Duration</li>
+        <li>Online Live Sessions</li>
+        <li>Certified Training</li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <h3>Register</h3>
+      <form id="registerForm">
         <input type="text" id="fullName" placeholder="Full Name" required />
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="text" id="school" placeholder="School / University" required />
-        <button type="submit">Register Now</button>
+        <input type="email" id="email" placeholder="Email Address" required />
+        <input type="text" id="school" placeholder="School/University" required />
+        <select id="experience">
+          <option>Beginner</option>
+          <option>Intermediate</option>
+        </select>
+        <textarea id="reason" placeholder="Why join?"></textarea>
+        <button type="submit">Submit Registration</button>
       </form>
     </div>
   </section>
-  <script>
-    function logout() {
-      localStorage.removeItem("gomunRole");
-      window.location.href = "login.html";
-    }
-  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
