@@ -1,58 +1,53 @@
-const authForm = document.getElementById("authForm");
-const toggleAuth = document.getElementById("toggleAuth");
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "gomun123";
+
+let isLoginMode = true;
+const form = document.getElementById("loginForm");
+const error = document.getElementById("error");
 const authTitle = document.getElementById("authTitle");
 const authBtn = document.getElementById("authBtn");
-const errorMsg = document.getElementById("error");
-let isLogin = true;
+const toggleText = document.getElementById("toggleText");
 
-// URL Check: login.html?admin=true shows the role selector
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('admin') === 'true') {
-  document.getElementById("adminFields").style.display = "block";
+function toggleAuth() {
+  isLoginMode = !isLoginMode;
+  authTitle.textContent = isLoginMode ? "GOMUN Portal" : "Join GOMUN";
+  authBtn.textContent = isLoginMode ? "Login" : "Sign Up";
+  toggleText.innerHTML = isLoginMode 
+    ? 'Don\'t have an account? <span onclick="toggleAuth()">Sign Up</span>' 
+    : 'Already have an account? <span onclick="toggleAuth()">Login</span>';
+  error.textContent = "";
 }
 
-toggleAuth.addEventListener("click", (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  isLogin = !isLogin;
-  authTitle.textContent = isLogin ? "Login" : "Sign Up";
-  authBtn.textContent = isLogin ? "Login" : "Register";
-  document.getElementById("toggleText").textContent = isLogin ? "Don't have an account?" : "Already have an account?";
-  toggleAuth.textContent = isLogin ? "Sign Up" : "Login";
-  errorMsg.textContent = "";
-});
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const users = JSON.parse(localStorage.getItem("gomunUsers")) || [];
 
-authForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-  const role = document.getElementById("role")?.value || "user";
-
-  let users = JSON.parse(localStorage.getItem("gomunUsers")) || [];
-
-  if (isLogin) {
-    // 1. Hardcoded Admin Check
-    if (user === "admin" && pass === "gomun123") {
+  if (isLoginMode) {
+    // Admin Detection (Hidden)
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
       localStorage.setItem("gomunRole", "admin");
-      window.location.href = "dashboard.html";
+      window.location.href = "academy.html";
       return;
     }
-    // 2. Local Storage User Check
-    const found = users.find(u => u.username === user && u.password === pass);
-    if (found) {
-      localStorage.setItem("gomunRole", found.role);
-      window.location.href = (found.role === "admin") ? "dashboard.html" : "academy.html";
+    // User Detection
+    const user = users.find(u => u.user === username && u.pass === password);
+    if (user) {
+      localStorage.setItem("gomunRole", "user");
+      window.location.href = "academy.html";
     } else {
-      errorMsg.textContent = "Invalid credentials. Try again.";
+      error.textContent = "Invalid credentials.";
     }
   } else {
-    // Signup Logic
-    if (users.find(u => u.username === user)) {
-      errorMsg.textContent = "Username already exists.";
+    // Sign Up Logic
+    if (users.find(u => u.user === username)) {
+      error.textContent = "Username already exists.";
     } else {
-      users.push({ username: user, password: pass, role: role });
+      users.push({ user: username, pass: password });
       localStorage.setItem("gomunUsers", JSON.stringify(users));
-      alert("Registration successful! You can now log in.");
-      location.reload(); 
+      alert("Account created! Please login.");
+      toggleAuth();
     }
   }
 });
