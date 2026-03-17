@@ -12,23 +12,28 @@
     <div class="links">
       <a href="index.html">Home</a>
       <a href="academy.html">Academy</a>
+      <a href="dashboard.html">Dashboard</a>
       <a href="certificates.html">Certificates</a>
       <button onclick="logout()" class="btn-logout">Logout</button>
     </div>
   </nav>
 
-  <section class="hero">
+  <header class="hero">
     <div class="hero-text">
       <h1>Global Online MUN</h1>
-      <p>Empowering the next generation of diplomats through high-quality, accessible debate. Join students from 35+ countries.</p>
-      <div class="stats">
-        <div><h2>35+</h2><p>Countries</p></div>
-        <div><h2>900+</h2><p>Members</p></div>
+      <p>Empowering student diplomats across 35+ countries. Join the world's most accessible MUN circuit.</p>
+      <div class="hero-btns">
+        <a href="#past" class="btn primary">Past Conferences</a>
+        <a href="academy.html" class="btn outline">Join Academy</a>
       </div>
-      <br>
-      <a href="academy.html" style="display:inline-block; background:#1d4ed8; color:white; padding:15px 30px; border-radius:8px; text-decoration:none; font-weight:bold;">Enter Academy</a>
     </div>
-  </section>
+
+    <div class="stats-grid">
+      <div class="stat-card"><h2>35+</h2><p>Countries</p></div>
+      <div class="stat-card"><h2>900+</h2><p>Members</p></div>
+      <div class="stat-card"><h2>4</h2><p>Editions</p></div>
+    </div>
+  </header>
 
   <script>
     function logout() {
