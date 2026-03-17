@@ -562,23 +562,35 @@
 }
 
   function submitExam() {
-    const form = document.getElementById('examForm');
-    const formData = new FormData(form);
-    let score = 0;
-    
-    for (let i = 1; i <= 20; i++) {
-      if (formData.get('q' + i) === 'correct') {
-        score++;
-      }
-    }
-
-    if (score >= 14) {
-      alert(`Congratulations! You passed with a score of ${score}/20.`);
-      window.location.href='dashboard.html';
-    } else {
-      alert(`Score: ${score}/20. You need at least 14 to pass. Please review the modules and try again.`);
+  const form = document.getElementById('examForm');
+  const formData = new FormData(form);
+  let score = 0;
+  
+  for (let i = 1; i <= 20; i++) {
+    if (formData.get('q' + i) === 'correct') {
+      score++;
     }
   }
+
+  // Save the score to the participant's record
+  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+  const currentUser = localStorage.getItem("username");
+  const userIndex = participants.findIndex(p => p.fullName === currentUser || p.email === currentUser);
+
+  if (userIndex !== -1) {
+    participants[userIndex].examScore = score + "/20";
+    participants[userIndex].completed = (score >= 14);
+    localStorage.setItem("gomunParticipants", JSON.stringify(participants));
+  }
+
+  if (score >= 14) {
+    alert(`Congratulations! You passed with ${score}/20.`);
+    window.location.href='index.html';
+  } else {
+    alert(`You scored ${score}/20. You need 14 to pass. Review the slides and try again!`);
+  }
+}
+
 </script>
 </body>
 </html>
