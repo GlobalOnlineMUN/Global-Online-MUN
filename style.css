@@ -472,3 +472,45 @@ nav .btn-logout:hover {
 nav .btn-logout:active {
   transform: scale(0.95);
 }
+/* ... Keep existing styles and append these ... */
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .links {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .links a {
+    margin-left: 0;
+    font-size: 14px;
+  }
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .hero-text h1 {
+    font-size: 32px;
+  }
+  .academy {
+    grid-template-columns: 1fr; /* Stack Academy info and Form */
+  }
+  .stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.auth-toggle span {
+  color: #1D4ED8;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
