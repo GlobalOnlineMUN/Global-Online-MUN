@@ -1,62 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOMUN Academy Curriculum</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .module-container { display: none; max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .active-module { display: block; }
-        .lesson-card { background: #f8fafc; padding: 20px; border-left: 5px solid #1d4ed8; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .btn-nav { background: #1d4ed8; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .btn-nav:hover { background: #1e40af; }
-        .quiz-container { background: #eff6ff; padding: 20px; border-radius: 12px; margin-top: 30px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOMUN Academy | Curriculum</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root { --primary: #1d4ed8; --secondary: #64748b; --success: #16a34a; --bg: #f8fafc; }
+    body { background: var(--bg); font-family: 'Segoe UI', sans-serif; }
+    .module-container { 
+      display: none; max-width: 850px; margin: 30px auto; background: white; 
+      padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+    }
+    .active-module { display: block; animation: slideIn 0.4s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .lesson-header { color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 30px; }
+    .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+    .term-card { background: #f1f5f9; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary); }
+    .exercise-box { background: #f0fdf4; border: 1px solid var(--success); padding: 20px; border-radius: 12px; margin: 25px 0; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .btn-nav { padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+    .btn-next { background: var(--primary); color: white; }
+    .btn-prev { background: var(--secondary); color: white; }
+    
+    @media (max-width: 600px) { 
+        .module-container { width: 95%; padding: 20px; margin: 10px auto; } 
+        .term-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">GOMUN ACADEMY</div>
-        <div class="links"><a href="index.html">Exit Academy</a></div>
-    </nav>
 
-    <div id="module-1" class="module-container active-module">
-        <h1>Module 1: Introduction to the UN and MUN</h1>
-        <div class="lesson-card">
-            <h3>Lesson 1: Understanding the UN</h3>
-            <p>The UN was founded in 1945 to prevent future conflicts and promote peace. It has 193 member states.</p>
-            <ul>
-                <li><strong>UNGA:</strong> Policy-making, 193 members.</li>
-                <li><strong>UNSC:</strong> Peace and Security, 15 members (5 Permanent).</li>
-            </ul>
-        </div>
-        <button class="btn-nav" onclick="showModule(2)">Next: Rules of Procedure →</button>
-    </div>
+<nav>
+  <div class="logo">GOMUN Academy</div>
+  <div class="links"><a href="index.html">Exit Academy</a></div>
+</nav>
 
-    <div id="module-2" class="module-container">
-        <h1>Module 2: Rules of Procedure (RoP)</h1>
-        <div class="lesson-card">
-            <h3>Motions & Points</h3>
-            <p><strong>Motions:</strong> Formal requests to the chair (e.g., Motion to Open Debate).</p>
-            <p><strong>Points:</strong> Personal Privilege, Order, Inquiry, and Information.</p>
-        </div>
-        <button class="btn-nav" onclick="showModule(1)">← Back</button>
-        <button class="btn-nav" onclick="showModule(3)">Next: Public Speaking →</button>
-    </div>
+<div id="module-1" class="module-container active-module">
+  <h1>Module 1: Introduction to the UN and MUN</h1>
+  <p>Welcome to GOMUN. Your journey to becoming a global diplomat starts here.</p>
+  
+  <h3 class="lesson-header">Lesson 1: Understanding the United Nations</h3>
+  <p>The UN was founded in 1945 to maintain peace and advance human rights. It has 193 member states.</p>
+  <div class="term-grid">
+    <div class="term-card"><strong>UNGA:</strong> Policy-making body. Each country has 1 vote. Resolutions are non-binding.</div>
+    <div class="term-card"><strong>UNSC:</strong> Peace and Security. 15 members. Resolutions are <strong>binding</strong>.</div>
+  </div>
 
-    <div id="module-8" class="module-container">
-        <h1>Final Assessment</h1>
-        <div class="quiz-container">
-            <p>Complete the 20-question MCQ to earn your certificate.</p>
-            <button class="btn-nav" onclick="alert('Quiz Submitted! Redirecting to Dashboard...')">Submit Assessment</button>
-        </div>
-    </div>
+  <h3 class="lesson-header">Lesson 2: Your Role as a Delegate</h3>
+  <p>You represent a country's policy, not your own opinion. You must research your country’s allies, enemies, and past actions.</p>
 
-    <script src="script.js"></script>
-    <script>
-        // Start at module 1 automatically
-        window.onload = () => { showModule(1); };
-    </script>
+  <div class="exercise-box">
+    <strong>Module 1 Exercise:</strong> Draft a 3-sentence opening statement for your country on the topic of "Climate Change."
+  </div>
+
+  <div class="nav-buttons">
+    <div></div>
+    <button class="btn-nav btn-next" onclick="showModule(2)">Module 2: Rules of Procedure →</button>
+  </div>
+</div>
+
+<div id="module-2" class="module-container">
+  <h1>Module 2: Rules of Procedure (RoP)</h1>
+  <p>RoP ensures debate stays orderly and fair.</p>
+
+  <h3 class="lesson-header">Lesson 1: Motions</h3>
+  <p>Common motions used to move the debate forward:</p>
+  <ul>
+    <li><strong>Motion for Moderated Caucus:</strong> Formal speeches on sub-topics.</li>
+    <li><strong>Motion for Unmoderated Caucus:</strong> Informal lobbying and drafting.</li>
+  </ul>
+
+  <h3 class="lesson-header">Lesson 2: Points</h3>
+  <p>Use these to communicate with the Chair:</p>
+  <div class="term-grid">
+    <div class="term-card"><strong>Point of Order:</strong> To correct a procedural error.</div>
+    <div class="term-card"><strong>Point of Inquiry:</strong> To ask a question about the rules.</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(1)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(3)">Module 3: Public Speaking →</button>
+  </div>
+</div>
+
+<div id="module-3" class="module-container">
+  <h1>Module 3: Public Speaking & Diplomacy</h1>
+  <h3 class="lesson-header">Lesson 1: Speech Structure</h3>
+  <p>A good speech follows: <strong>Hook</strong> (Attention), <strong>Point</strong> (Evidence), and <strong>Call to Action</strong> (Solution).</p>
+  
+  <h3 class="lesson-header">Lesson 2: Diplomatic Language</h3>
+  <p>Never use "I think." Instead, use "The delegation of [Country] believes..." or "We urge the committee to..."</p>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(2)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(4)">Module 4: Research →</button>
+  </div>
+</div>
+
+<div id="module-4" class="module-container">
+  <h1>Module 4: Research & Position Papers</h1>
+  <p>The Position Paper is your roadmap for the conference.</p>
+  <ul>
+    <li><strong>Section 1:</strong> Background of the topic.</li>
+    <li><strong>Section 2:</strong> Your country's past actions.</li>
+    <li><strong>Section 3:</strong> Proposed solutions.</li>
+  </ul>
+  <div class="exercise-box"><strong>Tip:</strong> Use official UN sources (UN.org) and Reuters/BBC for credible data.</div>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(3)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(5)">Module 5: Resolutions →</button>
+  </div>
+</div>
+
+<div id="module-5" class="module-container">
+  <h1>Module 5: Resolution Writing</h1>
+  <p>This is the final document the committee votes on.</p>
+  <h3 class="lesson-header">Operative Clauses</h3>
+  <p>These clauses state exactly what action the UN should take. They start with an <u>action verb</u> like: <i>Urges, Encourages, or Condemns.</i></p>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(4)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(6)">Module 6: Negotiation →</button>
+  </div>
+</div>
+
+<div id="module-6" class="module-container">
+  <h1>Module 6: Negotiation & Lobbying</h1>
+  <p>You cannot pass a resolution alone. You must build a **Bloc** (a group of allies).</p>
+  <h3 class="lesson-header">Negotiation Tips</h3>
+  <ul>
+    <li>Find countries with similar problems (e.g., Small Island States on Climate Change).</li>
+    <li>Be willing to compromise on small points to win the big vote.</li>
+  </ul>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(5)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(7)">Module 7: Simulation Prep →</button>
+  </div>
+</div>
+
+<div id="module-7" class="module-container">
+  <h1>Module 7: Final Simulation Prep</h1>
+  <p>You are now ready. Review your notes, dress professionally, and be ready to lead.</p>
+  <div class="exercise-box">
+    <strong>Final Checklist:</strong>
+    1. Position Paper Printed? <br>
+    2. Opening Speech Ready? <br>
+    3. Rules of Procedure memorized?
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(6)">← Back</button>
+    <button class="btn-nav btn-next" onclick="showModule(8)">Final MCQ Assessment →</button>
+  </div>
+</div>
+
+<div id="module-8" class="module-container">
+  <h1>Final Assessment</h1>
+  <p>Choose the correct answer for the questions below to finish the Academy.</p>
+  
+  <div class="exercise-box">
+    <p><strong>1. Which UN organ passes binding resolutions?</strong></p>
+    <input type="radio" name="q1" id="q1a"> <label for="q1a">General Assembly</label><br>
+    <input type="radio" name="q1" id="q1b"> <label for="q1b">Security Council</label>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-nav btn-prev" onclick="showModule(7)">← Back</button>
+    <button class="btn-nav btn-next" onclick="alert('Congratulations! You have completed GOMUN Academy. Redirecting to Dashboard...'); window.location.href='dashboard.html'">Submit & Finish</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
-
