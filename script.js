@@ -66,35 +66,26 @@ function showModule(moduleNumber) {
 
 // --- Dashboard Management (Admin Functions) ---
 function loadDashboard() {
-  const tableBody = document.getElementById("participantsBody"); // Reference the <tbody>
   const table = document.getElementById("participantsTable");
-  if (!table || !tableBody) return;
-
-  const role = localStorage.getItem("gomunRole");
-  const data = getParticipants();
-  tableBody.innerHTML = "";
+  if (!table) return;
+  
+  const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+  table.innerHTML = ""; 
 
   data.forEach((p, index) => {
-    let actions = "<em>View Only</em>";
-    if (role === "admin") {
-      actions = `
-        <button onclick="markComplete(${index})">Complete</button>
-        <button onclick="editParticipant(${index})">Edit</button>
-        <button onclick="deleteParticipant(${index})">Delete</button>
-      `;
-    }
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${p.fullName}</td>
       <td>${p.email}</td>
-      <td>${p.school}</td>
-      <td>Module ${p.currentModule || 1}</td>
-      <td>${p.completed ? "✅ Completed" : "⏳ In Progress"}</td>
-      <td>${actions}</td>
+      <td>${p.currentModule || "Not Started"}</td> <td>${p.examScore || "Pending"}</td>        <td>${p.completed ? "✅ Passed" : "⏳ Learning"}</td>
+      <td>
+        <button onclick="deleteParticipant(${index})" style="background:#dc2626; color:white;">Remove</button>
+      </td>
     `;
-    tableBody.appendChild(row);
+    table.appendChild(row);
   });
 }
+
 
 function markComplete(i) {
   const data = getParticipants();
