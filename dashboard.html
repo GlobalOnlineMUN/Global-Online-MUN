@@ -5,14 +5,20 @@
   <title>GOMUN Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <script>
+    // 1. ACCESS CONTROL: Only 'admin' can stay here
     const role = localStorage.getItem("gomunRole");
     if (!role) {
       window.location.href = "login.html";
+    } else if (role !== "admin") {
+      alert("Access Denied: Admins Only.");
+      window.location.href = "index.html"; 
     }
   </script>
 </head>
 <body>
+
 <nav>
   <div class="logo">GOMUN</div>
   <div class="links">
@@ -21,36 +27,37 @@
     <a href="dashboard.html">Dashboard</a>
     <a href="certificates.html">Certificates</a>
     <button onclick="logout()" class="btn-logout">Logout</button>
-    <script>
-      function logout() {
-        localStorage.removeItem("gomunRole");
-        window.location.href = "login.html";
-      }
-    </script>
   </div>
 </nav>
+
 <section id="dashboard">
   <h2>Participant Dashboard</h2>
   <p class="center">Admin panel to manage GOMUN Academy participants.</p>
 
-  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 20px;">
-    <table id="participantsTable">
+  <div style="overflow-x: auto; margin-top: 20px;">
+    <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Email</th>
-          <th>School</th>
-          <th>Level</th>
-          <th>Status</th>
+          <th>Current Module</th> <th>Exam Score</th>     <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody id="participantsBody">
+      <tbody id="participantsTable">
         </tbody>
     </table>
   </div>
-  </section>
-    <thead>
+</section>
+
+<script>
+  function logout() {
+    localStorage.removeItem("gomunRole");
+    localStorage.removeItem("username"); // Clear session
+    window.location.href = "login.html";
+  }
+</script>
+
 <script src="script.js"></script>
 </body>
 </html>
