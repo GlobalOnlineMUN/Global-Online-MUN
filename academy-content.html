@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOMUN Academy Curriculum</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .module-container { display: none; max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .active-module { display: block; }
+        .lesson-card { background: #f8fafc; padding: 20px; border-left: 5px solid #1d4ed8; margin: 20px 0; border-radius: 0 8px 8px 0; }
+        .btn-nav { background: #1d4ed8; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn-nav:hover { background: #1e40af; }
+        .quiz-container { background: #eff6ff; padding: 20px; border-radius: 12px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">GOMUN ACADEMY</div>
+        <div class="links"><a href="index.html">Exit Academy</a></div>
+    </nav>
+
+    <div id="module-1" class="module-container active-module">
+        <h1>Module 1: Introduction to the UN and MUN</h1>
+        <div class="lesson-card">
+            <h3>Lesson 1: Understanding the UN</h3>
+            <p>The UN was founded in 1945 to prevent future conflicts and promote peace. It has 193 member states.</p>
+            <ul>
+                <li><strong>UNGA:</strong> Policy-making, 193 members.</li>
+                <li><strong>UNSC:</strong> Peace and Security, 15 members (5 Permanent).</li>
+            </ul>
+        </div>
+        <button class="btn-nav" onclick="showModule(2)">Next: Rules of Procedure →</button>
+    </div>
+
+    <div id="module-2" class="module-container">
+        <h1>Module 2: Rules of Procedure (RoP)</h1>
+        <div class="lesson-card">
+            <h3>Motions & Points</h3>
+            <p><strong>Motions:</strong> Formal requests to the chair (e.g., Motion to Open Debate).</p>
+            <p><strong>Points:</strong> Personal Privilege, Order, Inquiry, and Information.</p>
+        </div>
+        <button class="btn-nav" onclick="showModule(1)">← Back</button>
+        <button class="btn-nav" onclick="showModule(3)">Next: Public Speaking →</button>
+    </div>
+
+    <div id="module-8" class="module-container">
+        <h1>Final Assessment</h1>
+        <div class="quiz-container">
+            <p>Complete the 20-question MCQ to earn your certificate.</p>
+            <button class="btn-nav" onclick="alert('Quiz Submitted! Redirecting to Dashboard...')">Submit Assessment</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Start at module 1 automatically
+        window.onload = () => { showModule(1); };
+    </script>
+</body>
+</html>
 
