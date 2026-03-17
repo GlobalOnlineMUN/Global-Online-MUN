@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GOMUN Certificates</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    const role = localStorage.getItem("gomunRole");
+    if (!role) {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+<nav>
+  <div class="logo">GOMUN</div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="academy.html">Academy</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="certificates.html">Certificates</a>
+    <button onclick="logout()" class="btn-logout">Logout</button>
+      <script>
+        function logout() {
+          localStorage.removeItem("gomunRole");
+          window.location.href = "login.html";
+        }
+      </script>
+  </div>
+</nav>
+<section id="certificates">
+  <h2>Certificates</h2>
+  <p class="center">
+    Certificates are issued after completing at least 10 hours of GOMUN Academy.
+    Skills covered: diplomacy, public speaking, resolution writing, UN procedures.
+  </p>
+  <div id="certList" class="cert-list"></div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

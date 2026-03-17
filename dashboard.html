@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GOMUN Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    const role = localStorage.getItem("gomunRole");
+    if (!role) {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+<nav>
+  <div class="logo">GOMUN</div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="academy.html">Academy</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="certificates.html">Certificates</a>
+    <button onclick="logout()" class="btn-logout">Logout</button>
+    <script>
+      function logout() {
+        localStorage.removeItem("gomunRole");
+        window.location.href = "login.html";
+      }
+    </script>
+  </div>
+</nav>
+<section id="dashboard">
+  <h2>Participant Dashboard</h2>
+  <p class="center">Admin panel to manage GOMUN Academy participants.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>School</th>
+        <th>Level</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="participantsTable"></tbody>
+  </table>
+</section>
+<script src="script.js"></script>
+</body>
+</html>

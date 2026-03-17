@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GOMUN | Global Online MUN</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    const role = localStorage.getItem("gomunRole");
+    if (!role) {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+   <nav>
+     <div class="logo">GOMUN</div>
+     <div class="links">
+       <a href="index.html">Home</a>
+       <a href="index.html#about">Why GOMUN</a>
+       <a href="academy.html">Academy</a>
+       <a href="dashboard.html">Dashboard</a>
+       <a href="certificates.html">Certificates</a>
+       <button onclick="logout()" class="btn-logout">Logout</button>
+       <script>
+         function logout() {
+           localStorage.removeItem("gomunRole");
+           window.location.href = "login.html";
+        }
+        </script>
+     </div>
+    </nav>
+  <section id="home" class="hero">
+    <div class="hero-text">
+      <h1>Global Online MUN</h1>
+      <p>
+        GOMUN is an international Model United Nations organization making
+        high-quality MUN accessible to all, bringing together delegates from
+        over 30 countries to debate, collaborate, and lead.
+      </p>
+      <div class="buttons">
+        <a href="#past" class="btn primary">Past Conferences</a>
+        <a href="academy.html" class="btn outline">Join Academy</a>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <h2>35+</h2>
+        <p>Countries</p>
+      </div>
+      <div class="stat">
+        <h2>900+</h2>
+        <p>Community Members</p>
+      </div>
+      <div class="stat">
+        <h2>4</h2>
+        <p>Editions Hosted</p>
+      </div>
+    </div>
+  </section>
+  <section id="past">
+    <h2>Past Conferences</h2>
+    <div class="cards">
+      <div class="card">General Assembly Session</div>
+      <div class="card">Security Council Debate</div>
+      <div class="card">Opening Ceremony</div>
+    </div>
+  </section>
+  <section id="about" class="light">
+    <h2>Why GOMUN?</h2>
+    <p class="center">
+      GOMUN was founded to offer free, consistent, and truly international MUN
+      experiences. Unlike many conferences that charge fees or discontinue
+      after a few editions, GOMUN delivers long-term impact across countries.
+    </p>
+    <div class="cards">
+      <div class="info">
+        <h3>Free & High Quality</h3>
+        <p>Zero fees while maintaining professional standards.</p>
+      </div>
+      <div class="info">
+        <h3>Truly International</h3>
+        <p>Delegates and chairs from 35+ countries.</p>
+      </div>
+      <div class="info">
+        <h3>Sustainable Impact</h3>
+        <p>Multiple editions and a growing global community.</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>© 2025 Global Online MUN (GOMUN). All rights reserved.</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
