@@ -2,67 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GOMUN | Global Online MUN</title>
-  <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOMUN | Global Online MUN</title>
+  <link rel="stylesheet" href="style 2.css" />
 </head>
 <body>
-   <nav>
-     <div class="logo">GOMUN</div>
-     <div class="links">
-       <a href="index.html">Home</a>
-       <a href="index.html#about">Why GOMUN</a>
-       <a href="academy.html">Academy</a>
-       <a href="dashboard.html">Dashboard</a>
-       <a href="certificates.html">Certificates</a>
-       <button onclick="logout()" class="btn-logout">Logout</button>
-     </div>
-    </nav>
-  <section id="home" class="hero">
+  <nav>
+    <div class="logo">GOMUN</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="academy.html">Academy</a>
+      <a href="certificates.html">Certificates</a>
+      <button onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+  </nav>
+
+  <section class="hero">
     <div class="hero-text">
       <h1>Global Online MUN</h1>
-      <p>
-        GOMUN is an international Model United Nations organization making
-        high-quality MUN accessible to all, bringing together delegates from
-        over 30 countries to debate, collaborate, and lead.
-      </p>
-      <div class="buttons">
-        <a href="#past" class="btn primary">Past Conferences</a>
-        <a href="academy.html" class="btn outline">Join Academy</a>
+      <p>Empowering the next generation of diplomats through high-quality, accessible debate. Join students from 35+ countries.</p>
+      <div class="stats">
+        <div><h2>35+</h2><p>Countries</p></div>
+        <div><h2>900+</h2><p>Members</p></div>
       </div>
-    </div>
-    <div class="stats">
-      <div class="stat">
-        <h2>35+</h2>
-        <p>Countries</p>
-      </div>
-      <div class="stat">
-        <h2>900+</h2>
-        <p>Community Members</p>
-      </div>
-      <div class="stat">
-        <h2>4</h2>
-        <p>Editions Hosted</p>
-      </div>
+      <br>
+      <a href="academy.html" style="display:inline-block; background:#1d4ed8; color:white; padding:15px 30px; border-radius:8px; text-decoration:none; font-weight:bold;">Enter Academy</a>
     </div>
   </section>
-  <section id="past">
-    <h2>Past Conferences</h2>
-    <div class="cards">
-      <div class="card">General Assembly Session</div>
-      <div class="card">Security Council Debate</div>
-      <div class="card">Opening Ceremony</div>
-    </div>
-  </section>
-  <footer>
-    <p>© 2025 Global Online MUN (GOMUN). All rights reserved.</p>
-  </footer>
+
   <script>
     function logout() {
       localStorage.removeItem("gomunRole");
       window.location.href = "login.html";
     }
   </script>
-  <script src="script.js"></script>
 </body>
 </html>
