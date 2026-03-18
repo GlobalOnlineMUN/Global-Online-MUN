@@ -162,6 +162,18 @@ function loadUserCertificates() {
     }
 }
 
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'px', [800, 600]); // 'l' for landscape
+    const username = localStorage.getItem("username");
+    const certData = JSON.parse(localStorage.getItem("gomun_cert_" + username));
+
+    if (certData) {
+        doc.addImage(certData.image, 'PNG', 0, 0, 800, 600);
+        doc.save(`GOMUN_Certificate_${username}.pdf`);
+    }
+}
+
 // --- Unified Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
   // Check Admin Link
