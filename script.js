@@ -4,7 +4,7 @@ function getParticipants() {
 }
 
 function saveParticipants(data) {
-  localStorage.setItem("gomunParticipants", JSON.stringify(data));
+  localStorage.setItem("gomunRole", "user");
 }
 
 // --- Bulletproof Academy Registration Logic ---
