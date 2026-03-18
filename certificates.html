@@ -6,8 +6,12 @@
   <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
+    // Improved security check
     const role = localStorage.getItem("gomunRole");
-    if (!role) {
+    const username = localStorage.getItem("username");
+
+    // If there is no role AND no username, they definitely aren't logged in
+    if (!role && !username) {
       window.location.href = "login.html";
     }
   </script>
