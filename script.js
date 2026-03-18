@@ -14,7 +14,7 @@ if (registrationForm) {
   registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
     
-    // 1. Safely get values (using ?? to provide fallbacks if null)
+    // 1. Safely get values
     const fullName = document.getElementById("fullName")?.value || "Student";
     const email = document.getElementById("email")?.value || "no-email@gomun.org";
     const phone = document.getElementById("phone")?.value || "";
@@ -40,47 +40,13 @@ if (registrationForm) {
       examScore: "N/A"
     };
 
-    let data = [];
-    try {
-      data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
-    } catch(err) { 
-      data = []; 
-    }
-    
-    data.push(participant);
-    localStorage.setItem("gomunParticipants", JSON.stringify(data));
-
-    // 4. THE REDIRECT (This is the most important line)
-    console.log("Registration Successful. Redirecting...");
-    alert("✅ Registration successful! Welcome to Module 1.");
-    window.location.href = "academy-content.html"; 
-  });
-}
-
-    // Save user info so the rest of the app knows who is logged in
-    localStorage.setItem("username", fullName); 
-    localStorage.setItem("currentStudentEmail", email);
-    localStorage.setItem("gomunRole", "user"); // Log them in automatically
-
-    // Save to participants list for the admin dashboard
-    const participant = {
-      fullName: fullName,
-      email: email,
-      phone: document.getElementById("phone").value,
-      school: document.getElementById("school").value,
-      experience: document.getElementById("experience").value,
-      reason: document.getElementById("reason").value,
-      currentModule: "Module 1",
-      completed: false,
-      examScore: "N/A"
-    };
-
-    const data = getParticipants();
+    let data = getParticipants();
     data.push(participant);
     saveParticipants(data);
 
-    alert("✅ Registration successful! Welcome to the Academy.");
-    window.location.href = "academy-content.html"; // This sends them to the lessons
+    // 4. THE REDIRECT
+    alert("✅ Registration successful! Welcome to Module 1.");
+    window.location.href = "academy-content.html"; 
   });
 }
 
@@ -114,12 +80,12 @@ function checkProgress() {
   const welcomeMsg = document.getElementById("welcomeBackMsg");
 
   if (email && resumeSection) {
-    const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    const data = getParticipants();
     const user = data.find(p => p.email === email);
 
-    if (user && user.currentModule !== "Not Started") {
+    if (user && user.currentModule && user.currentModule !== "Not Started") {
       resumeSection.style.display = "block";
-      welcomeMsg.innerText = `Welcome back, ${user.fullName}!`;
+      if(welcomeMsg) welcomeMsg.innerText = `Welcome back, ${user.fullName}!`;
     }
   }
 }
@@ -127,13 +93,6 @@ function checkProgress() {
 function resumeAcademy() {
   window.location.href = "academy-content.html";
 }
-
-// Update your DOMContentLoaded to include the progress check
-document.addEventListener("DOMContentLoaded", () => {
-  checkProgress();
-  loadDashboard();
-  // ... rest of your init code
-});
 
 // --- Dashboard Management ---
 function loadDashboard() {
@@ -167,29 +126,19 @@ function deleteParticipant(i) {
   loadDashboard();
 }
 
-// --- Initialization ---
-document.addEventListener("DOMContentLoaded", () => {
-  loadDashboard();
-  
-  const role = localStorage.getItem("gomunRole");
-  const adminLink = document.getElementById("adminLink");
-  
-  if (role === "admin" && adminLink) {
-    adminLink.style.display = "inline-block";
-  }
-  function loadUserCertificates() {
+// --- Certificate Loading ---
+function loadUserCertificates() {
     const username = localStorage.getItem("username");
     const container = document.getElementById("certContainer");
     const msg = document.getElementById("noCertMsg");
     
-    if (!container) return; // Exit if we aren't on the certificates page
+    if (!container) return; 
 
-    // Try to find the specific certificate for this user
     const certData = localStorage.getItem("gomun_cert_" + username);
 
     if (certData) {
         const cert = JSON.parse(certData);
-        if (msg) msg.style.display = "none"; // Hide the "No certificates" message
+        if (msg) msg.style.display = "none"; 
         
         container.innerHTML = `
             <div class="cert-card" style="margin-top:20px;">
@@ -201,8 +150,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 
-// Make sure this runs whenever a page loads
+// --- Unified Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
-    loadUserCertificates();
-    // ... keep your other initialization code here ...
+  // Check Admin Link
+  const role = localStorage.getItem("gomunRole");
+  const adminLink = document.getElementById("adminLink");
+  if (role === "admin" && adminLink) {
+    adminLink.style.display = "inline-block";
+  }
+
+  // Run page-specific functions
+  checkProgress();
+  loadDashboard();
+  loadUserCertificates();
 });
