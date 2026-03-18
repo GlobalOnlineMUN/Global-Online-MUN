@@ -567,33 +567,38 @@
   let score = 0;
   
   for (let i = 1; i <= 20; i++) {
-    if (formData.get('q' + i) === 'correct') {
-      score++;
-    }
+    if (formData.get('q' + i) === 'correct') { score++; }
   }
+
+  const currentUser = localStorage.getItem("username");
+  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+  const userIndex = participants.findIndex(p => p.fullName === currentUser);
+
+  // Check if passed (70% = 14 marks)
+  if (score >= 14) {
+    if (userIndex !== -1) {
+      participants[userIndex].examScore = score + "/20";
+      participants[userIndex].completed = true;
+      localStorage.setItem("gomunParticipants", JSON.stringify(participants));
+    }
+
+    // Trigger the certificate generation
+    generateCertificate(currentUser); 
+    
+    alert(`🎉 Success! Score: ${score}/20. Your certificate is now available in the Certificates tab.`);
+    window.location.href = "certificates.html"; 
+  } else {
+    alert(`Score: ${score}/20. You need 14 to pass. Don't worry, review the modules and try again!`);
+  }
+}
+
 
   // Save the score to the participant's record
   const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
   const currentUser = localStorage.getItem("username");
   const userIndex = participants.findIndex(p => p.fullName === currentUser || p.email === currentUser);
 
-  if (userIndex !== -1) {
-    participants[userIndex].examScore = score + "/20";
-    participants[userIndex].completed = (score >= 14);
-    localStorage.setItem("gomunParticipants", JSON.stringify(participants));
-  }
-
-  // Check if they passed (14/20 is 70%)
-  if (score >= 14) {
-    // 1. Generate the certificate first
-    generateCertificate(currentUser); 
-    
-    // 2. Alert and redirect
-    alert(`Congratulations! You passed with ${score}/20. Your certificate has been generated.`);
-    window.location.href='index.html'; 
-  } else {
-    alert(`You scored ${score}/20. You need 14 to pass. Review the slides and try again!`);
-  }
+  
 }
 
 // Keep these functions OUTSIDE of submitExam so they can be reused
