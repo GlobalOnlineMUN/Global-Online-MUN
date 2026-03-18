@@ -561,7 +561,7 @@
   window.scrollTo(0,0);
 }
 
-  function submitExam() {
+ function submitExam() {
   const form = document.getElementById('examForm');
   const formData = new FormData(form);
   let score = 0;
@@ -583,56 +583,54 @@
     localStorage.setItem("gomunParticipants", JSON.stringify(participants));
   }
 
+  // Check if they passed (14/20 is 70%)
   if (score >= 14) {
-    alert(`Congratulations! You passed with ${score}/20.`);
-    window.location.href='index.html';
+    // 1. Generate the certificate first
+    generateCertificate(currentUser); 
+    
+    // 2. Alert and redirect
+    alert(`Congratulations! You passed with ${score}/20. Your certificate has been generated.`);
+    window.location.href='index.html'; 
   } else {
     alert(`You scored ${score}/20. You need 14 to pass. Review the slides and try again!`);
   }
+}
 
-    function generateCertificate(userName) {
+// Keep these functions OUTSIDE of submitExam so they can be reused
+function generateCertificate(userName) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const img = new Image();
     
     img.onload = function() {
-        // Set canvas size to match the image
         canvas.width = img.width;
         canvas.height = img.height;
-        
-        // Draw the template
         ctx.drawImage(img, 0, 0);
         
-        // Configure the Text (Adjust 'y' coordinate to fit your template)
-        ctx.font = 'bold 60px "Playfair Display", serif'; // Or a similar formal font
-        ctx.fillStyle = '#1e293b'; 
+        // Font Settings (Matching your certificate style)
+        ctx.font = 'italic 70px "Times New Roman"'; 
+        ctx.fillStyle = '#1c2e4a'; 
         ctx.textAlign = 'center';
         
-        // Draw the User's Name in the middle of the certificate
-        // Adjust the 850 value below to move the name up or down
-        ctx.fillText(userName, canvas.width / 2, 850); 
+        // Draw the name. I changed 850 to 890 based on your template's layout.
+        ctx.fillText(userName, canvas.width / 2, 890); 
         
-        // Convert to image data
         const certData = canvas.toDataURL('image/png');
-        
-        // Save to the user's data
         saveCertificateToUser(certData);
     };
     
-    img.src = 'certificate-template.PNG'; // Make sure this filename matches your GitHub upload
+    // Note: GitHub is case-sensitive! Ensure it's .PNG or .png exactly as uploaded.
+    img.src = 'certificate-template.PNG'; 
 }
 
 function saveCertificateToUser(certData) {
     const username = localStorage.getItem("username");
-    let certificates = JSON.parse(localStorage.getItem("gomun_certs_" + username)) || [];
-    
-    certificates.push({
+    const certEntry = {
         date: new Date().toLocaleDateString(),
-        image: certData,
-        title: "GOMUN Academy Completion"
-    });
-    
-    localStorage.setItem("gomun_certs_" + username, JSON.stringify(certificates));
+        image: certData
+    };
+    // We'll store it under a clean key for the user's dashboard to find
+    localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
 }
 
 }
