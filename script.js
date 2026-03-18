@@ -209,3 +209,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+function loadUserCertificates() {
+    const username = localStorage.getItem("username");
+    const container = document.getElementById("certContainer");
+    const msg = document.getElementById("noCertMsg");
+    const certs = JSON.parse(localStorage.getItem("gomun_certs_" + username)) || [];
+
+    if (certs.length > 0) {
+        msg.style.display = "none";
+        certs.forEach(cert => {
+            const div = document.createElement("div");
+            div.className = "cert-card";
+            div.innerHTML = `
+                <img src="${cert.image}" style="width: 100%; max-width: 500px; border: 5px solid gold; border-radius: 10px;">
+                <p>Awarded on: ${cert.date}</p>
+                <a href="${cert.image}" download="GOMUN_Certificate.png" class="btn-nav">Download PDF</a>
+            `;
+            container.appendChild(div);
+        });
+    }
+}
+
+
