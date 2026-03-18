@@ -171,4 +171,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById('module-1')) {
       showModule(1);
   }
-});
+}); //
