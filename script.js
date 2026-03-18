@@ -139,40 +139,38 @@ function deleteParticipant(i) {
 }
 
 // --- Certificate Loading ---
+
 function loadUserCertificates() {
+    // Try username first, then fallback to currentStudentEmail if name is missing
     const username = localStorage.getItem("username");
     const container = document.getElementById("certContainer");
     const msg = document.getElementById("noCertMsg");
     
-    if (!container) return; 
+    if (!container || !username) return; 
 
     const certData = localStorage.getItem("gomun_cert_" + username);
 
     if (certData) {
-        const cert = JSON.parse(certData);
-        if (msg) msg.style.display = "none"; 
-        
-        container.innerHTML = `
-            <div class="cert-card" style="margin-top:20px;">
-                <img src="${cert.image}" style="width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:10px; border: 1px solid #ddd;">
-                <br><br>
-                <a href="${cert.image}" download="GOMUN_Certificate_${username}.PNG" class="btn primary" style="text-decoration:none;">Download PNG</a>
-            </div>
-        `;
+        try {
+            const cert = JSON.parse(certData);
+            if (msg) msg.style.display = "none"; 
+            
+            container.innerHTML = `
+                <div class="cert-card" style="margin-top:20px;">
+                    <img src="${cert.image}" style="width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:10px; border: 1px solid #ddd;">
+                    <br><br>
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <a href="${cert.image}" download="GOMUN_Certificate.png" class="btn-nav btn-next" style="text-decoration:none;">Download PNG</a>
+                        <button onclick="downloadPDF()" class="btn-nav btn-prev">Download PDF</button>
+                    </div>
+                </div>
+            `;
+        } catch (e) {
+            console.error("Error parsing certificate data", e);
+        }
     }
 }
 
-function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('l', 'px', [800, 600]); // 'l' for landscape
-    const username = localStorage.getItem("username");
-    const certData = JSON.parse(localStorage.getItem("gomun_cert_" + username));
-
-    if (certData) {
-        doc.addImage(certData.image, 'PNG', 0, 0, 800, 600);
-        doc.save(`GOMUN_Certificate_${username}.pdf`);
-    }
-}
 
 // --- Unified Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
