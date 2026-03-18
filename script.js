@@ -7,35 +7,52 @@ function saveParticipants(data) {
   localStorage.setItem("gomunParticipants", JSON.stringify(data));
 }
 
-// --- Fixed Registration Logic ---
+// --- Bulletproof Academy Registration Logic ---
 const registrationForm = document.getElementById("registerForm");
+
 if (registrationForm) {
   registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
     
-    const fullName = document.getElementById("fullName").value;
-    const email = document.getElementById("email").value;
+    // 1. Safely get values (using ?? to provide fallbacks if null)
+    const fullName = document.getElementById("fullName")?.value || "Student";
+    const email = document.getElementById("email")?.value || "no-email@gomun.org";
+    const phone = document.getElementById("phone")?.value || "";
+    const school = document.getElementById("school")?.value || "";
+    const experience = document.getElementById("experience")?.value || "Beginner";
+    const reason = document.getElementById("reason")?.value || "";
 
-    // 1. Identify the user
+    // 2. Set Session Data
     localStorage.setItem("username", fullName); 
     localStorage.setItem("currentStudentEmail", email);
-    localStorage.setItem("gomunRole", "user");
+    localStorage.setItem("gomunRole", "user"); 
 
-    // 2. Initialize progress
+    // 3. Update Participant List
     const participant = {
       fullName: fullName,
       email: email,
-      currentModule: "Module 1", // Starts them here
+      phone: phone,
+      school: school,
+      experience: experience,
+      reason: reason,
+      currentModule: "Module 1",
       completed: false,
       examScore: "N/A"
     };
 
-    const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    let data = [];
+    try {
+      data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    } catch(err) { 
+      data = []; 
+    }
+    
     data.push(participant);
     localStorage.setItem("gomunParticipants", JSON.stringify(data));
 
-    // 3. Force Redirect
-    alert("Welcome to the Academy, " + fullName + "!");
+    // 4. THE REDIRECT (This is the most important line)
+    console.log("Registration Successful. Redirecting...");
+    alert("✅ Registration successful! Welcome to Module 1.");
     window.location.href = "academy-content.html"; 
   });
 }
