@@ -104,4 +104,32 @@ document.addEventListener("DOMContentLoaded", () => {
   if (role === "admin" && adminLink) {
     adminLink.style.display = "inline-block";
   }
+  function loadUserCertificates() {
+    const username = localStorage.getItem("username");
+    const container = document.getElementById("certContainer");
+    const msg = document.getElementById("noCertMsg");
+    
+    if (!container) return; // Exit if we aren't on the certificates page
+
+    // Try to find the specific certificate for this user
+    const certData = localStorage.getItem("gomun_cert_" + username);
+
+    if (certData) {
+        const cert = JSON.parse(certData);
+        if (msg) msg.style.display = "none"; // Hide the "No certificates" message
+        
+        container.innerHTML = `
+            <div class="cert-card" style="margin-top:20px;">
+                <img src="${cert.image}" style="width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:10px; border: 1px solid #ddd;">
+                <br><br>
+                <a href="${cert.image}" download="GOMUN_Certificate_${username}.png" class="btn primary" style="text-decoration:none;">Download PNG</a>
+            </div>
+        `;
+    }
+}
+
+// Make sure this runs whenever a page loads
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserCertificates();
+    // ... keep your other initialization code here ...
 });
