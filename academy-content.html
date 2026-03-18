@@ -545,71 +545,82 @@
 
 <script src="script.js"></script>
 <script>
-  // Finalized logic for handling everything inside this page
-    function submitExam() {
+  // 1. MODULE NAVIGATION (Keep this outside)
+  document.addEventListener("DOMContentLoaded", () => {
+    showModule(1);
+  });
+
+  // 2. EXAM SUBMISSION LOGIC
+  function submitExam() {
     const form = document.getElementById('examForm');
     const formData = new FormData(form);
     let score = 0;
     
+    // Calculate score
     for (let i = 1; i <= 20; i++) {
       if (formData.get('q' + i) === 'correct') { score++; }
     }
 
-    const currentUser = localStorage.getItem("username");
+    const currentUser = localStorage.getItem("username") || "Student";
     const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
     const userIndex = participants.findIndex(p => p.fullName === currentUser);
 
     if (score >= 14) {
+      // Update the database first
       if (userIndex !== -1) {
         participants[userIndex].examScore = score + "/20";
         participants[userIndex].completed = true;
         localStorage.setItem("gomunParticipants", JSON.stringify(participants));
       }
       
-      // Pass the score to the generator so it knows to redirect after saving
+      // Start certificate generation
       generateCertificate(currentUser, score); 
     } else {
-      alert(`Score: ${score}/20. You need 14/20 to pass. Please review the modules and try again!`);
+      alert(`Score: ${score}/20. You need at least 14/20 to pass. Keep trying, Delegate!`);
     }
   }
 
+  // 3. CERTIFICATE GENERATOR (Fixed to be global so submitExam can see it)
   function generateCertificate(userName, score) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const img = new Image();
       
       img.onload = function() {
+          // Set canvas size to match the template image
           canvas.width = img.width;
           canvas.height = img.height;
+          
+          // Draw the background
           ctx.drawImage(img, 0, 0);
+          
+          // Style the text
           ctx.font = 'italic 70px "Times New Roman"'; 
           ctx.fillStyle = '#1c2e4a'; 
           ctx.textAlign = 'center';
+          
+          // Draw the Name (adjust 890 based on your template's empty line)
           ctx.fillText(userName, canvas.width / 2, 890); 
           
+          // Convert to data and save
           const certData = canvas.toDataURL('image/png');
-          
-          // SAVE DATA
           localStorage.setItem("gomun_cert_" + userName, JSON.stringify({
-            date: new Date().toLocaleDateString(), 
-            image: certData
+              date: new Date().toLocaleDateString(), 
+              image: certData
           }));
 
-          // ONLY REDIRECT NOW THAT SAVING IS DONE
-          alert(`🎉 Success! Score: ${score}/20. Your certificate has been generated.`);
+          // ONLY NOW REDIRECT
+          alert(`🎉 Outstanding! Score: ${score}/20. Your certificate is ready.`);
           window.location.href = "certificates.html"; 
       };
 
+      // Error handling if the image fails
       img.onerror = function() {
-          alert("Error loading certificate template. Please check if 'certificate-template.PNG' exists in your folder.");
+          alert("Error: 'certificate-template.PNG' not found. Please ensure the image is in the same folder.");
       };
 
       img.src = 'certificate-template.PNG'; 
   }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    showModule(1);
-  });
 </script>
 </body>
 </html>
