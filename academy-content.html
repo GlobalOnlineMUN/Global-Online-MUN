@@ -652,14 +652,59 @@ function saveCertificateToUser(certData) {
     localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
 }
   <script>
-  // Force Module 1 to show up as soon as the student arrives
+  // This version handles the exam and certificate generation
+  function submitExam() {
+    const form = document.getElementById('examForm');
+    const formData = new FormData(form);
+    let score = 0;
+    
+    for (let i = 1; i <= 20; i++) {
+      if (formData.get('q' + i) === 'correct') { score++; }
+    }
+
+    const currentUser = localStorage.getItem("username");
+    const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    const userIndex = participants.findIndex(p => p.fullName === currentUser);
+
+    if (score >= 14) {
+      if (userIndex !== -1) {
+        participants[userIndex].examScore = score + "/20";
+        participants[userIndex].completed = true;
+        localStorage.setItem("gomunParticipants", JSON.stringify(participants));
+      }
+      
+      // Call the generation function (ensure this is in script.js or defined here)
+      generateCertificate(currentUser); 
+      alert(`🎉 Success! Score: ${score}/20. Your certificate is now available.`);
+      window.location.href = "certificates.html"; 
+    } else {
+      alert(`Score: ${score}/20. You need 14 to pass. Try again!`);
+    }
+  }
+
+  // Helper for the certificate
+  function generateCertificate(userName) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          ctx.font = 'italic 70px "Times New Roman"'; 
+          ctx.fillStyle = '#1c2e4a'; 
+          ctx.textAlign = 'center';
+          ctx.fillText(userName, canvas.width / 2, 890); 
+          const certData = canvas.toDataURL('image/png');
+          localStorage.setItem("gomun_cert_" + userName, JSON.stringify({date: new Date().toLocaleDateString(), image: certData}));
+      };
+      img.src = 'certificate-template.PNG'; 
+  }
+
+  // IMPORTANT: On load, show Module 1 using the function from script.js
   document.addEventListener("DOMContentLoaded", () => {
     if (typeof showModule === "function") {
       showModule(1);
-    } else {
-      // Fallback if script.js hasn't loaded properly
-      document.getElementById('module-1').style.display = 'block';
-      document.getElementById('module-1').classList.add('active-module');
     }
   });
 </script>
