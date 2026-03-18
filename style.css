@@ -577,3 +577,17 @@ nav .btn-logout:active {
   display: none !important;
 }
 
+.cert {
+  position: relative;
+}
+
+.cert-name {
+  position: absolute;
+  top: 55%; /* adjust this */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e293b;
+  white-space: nowrap;
+}
