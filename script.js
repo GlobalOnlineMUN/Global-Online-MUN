@@ -90,6 +90,34 @@ function showModule(moduleNumber) {
     }
 }
 
+// --- Resume Course Logic ---
+function checkProgress() {
+  const email = localStorage.getItem("currentStudentEmail");
+  const resumeSection = document.getElementById("resumeSection");
+  const welcomeMsg = document.getElementById("welcomeBackMsg");
+
+  if (email && resumeSection) {
+    const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    const user = data.find(p => p.email === email);
+
+    if (user && user.currentModule !== "Not Started") {
+      resumeSection.style.display = "block";
+      welcomeMsg.innerText = `Welcome back, ${user.fullName}!`;
+    }
+  }
+}
+
+function resumeAcademy() {
+  window.location.href = "academy-content.html";
+}
+
+// Update your DOMContentLoaded to include the progress check
+document.addEventListener("DOMContentLoaded", () => {
+  checkProgress();
+  loadDashboard();
+  // ... rest of your init code
+});
+
 // --- Dashboard Management ---
 function loadDashboard() {
   const table = document.getElementById("participantsTable");
