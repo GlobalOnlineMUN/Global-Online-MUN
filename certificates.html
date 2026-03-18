@@ -39,6 +39,14 @@
     <p id="noCertMsg">No certificates found. Complete the Academy exam to earn one!</p>
   </div>
 </section>
+
+<script>
+  window.onload = function() {
+    if (typeof loadUserCertificates === "function") {
+       loadUserCertificates();
+    }
+  };
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="script.js"></script>
 </body>
