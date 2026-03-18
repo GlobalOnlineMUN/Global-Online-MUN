@@ -52,7 +52,9 @@ if (registrationForm) {
 
 // --- Academy Module Navigation ---
 function showModule(moduleNumber) {
-    document.querySelectorAll('.module-container').forEach(m => {
+    // 1. VISUAL SWITCH (Do this first so the user sees the change)
+    const modules = document.querySelectorAll('.module-container');
+    modules.forEach(m => {
         m.style.display = 'none';
         m.classList.remove('active-module');
     });
@@ -62,14 +64,24 @@ function showModule(moduleNumber) {
         target.style.display = 'block';
         target.classList.add('active-module');
         window.scrollTo(0, 0);
-        
+    } else {
+        console.error("Module " + moduleNumber + " not found!");
+        return; // Stop if the module ID is wrong
+    }
+
+    // 2. BACKGROUND SAVE (Try to save, but don't break the page if it fails)
+    try {
         const email = localStorage.getItem("currentStudentEmail");
-        const data = getParticipants();
-        const userIndex = data.findIndex(u => u.email === email);
-        if (userIndex !== -1) {
-            data[userIndex].currentModule = "Module " + moduleNumber;
-            saveParticipants(data);
+        if (email) {
+            const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+            const userIndex = data.findIndex(u => u.email === email);
+            if (userIndex !== -1) {
+                data[userIndex].currentModule = "Module " + moduleNumber;
+                localStorage.setItem("gomunParticipants", JSON.stringify(data));
+            }
         }
+    } catch (err) {
+        console.warn("Could not save progress, but moving to next module anyway.");
     }
 }
 
