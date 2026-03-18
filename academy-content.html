@@ -632,6 +632,17 @@ function saveCertificateToUser(certData) {
     // We'll store it under a clean key for the user's dashboard to find
     localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
 }
+  <script>
+  // Force Module 1 to show up as soon as the student arrives
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof showModule === "function") {
+      showModule(1);
+    } else {
+      // Fallback if script.js hasn't loaded properly
+      document.getElementById('module-1').style.display = 'block';
+      document.getElementById('module-1').classList.add('active-module');
+    }
+  });
 </script>
 </body>
 </html>
