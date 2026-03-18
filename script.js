@@ -193,3 +193,19 @@ document.addEventListener("DOMContentLoaded", () => {
       showModule(1);
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const role = localStorage.getItem("gomunRole");
+  const adminLink = document.getElementById("adminLink");
+  const loginBtn = document.getElementById("loginBtn");
+
+  if (role === "admin") {
+    // If Admin: Show the dashboard link
+    if (adminLink) adminLink.style.display = "inline-block";
+    if (loginBtn) loginBtn.textContent = "Admin Logout";
+  } else if (role === "user") {
+    // If Normal User: Keep dashboard hidden
+    if (adminLink) adminLink.style.display = "none";
+    if (loginBtn) loginBtn.textContent = "Logout";
+  }
+});
+
