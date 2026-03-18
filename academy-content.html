@@ -559,19 +559,23 @@
     const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
     const userIndex = participants.findIndex(p => p.fullName === currentUser);
 
-    if (score >= 14) {
+        if (score >= 14) {
+      // Get the name exactly as it was stored during registration
+      const storedName = localStorage.getItem("username"); 
+      
       if (userIndex !== -1) {
         participants[userIndex].examScore = score + "/20";
         participants[userIndex].completed = true;
         localStorage.setItem("gomunParticipants", JSON.stringify(participants));
       }
-      generateCertificate(currentUser); 
-      alert(`🎉 Success! Score: ${score}/20. Your certificate is ready.`);
+      
+      // Use storedName here to ensure it matches the Certificates page check
+      generateCertificate(storedName); 
+      
+      alert(`🎉 Success! Score: ${score}/20. Redirecting to your certificate...`);
       window.location.href = "certificates.html"; 
-    } else {
-      alert(`Score: ${score}/20. You need 14 to pass. Try again!`);
     }
-  }
+
 
   function generateCertificate(userName) {
       const canvas = document.createElement('canvas');
