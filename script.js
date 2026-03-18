@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="cert-card" style="margin-top:20px;">
                 <img src="${cert.image}" style="width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:10px; border: 1px solid #ddd;">
                 <br><br>
-                <a href="${cert.image}" download="GOMUN_Certificate_${username}.png" class="btn primary" style="text-decoration:none;">Download PNG</a>
+                <a href="${cert.image}" download="GOMUN_Certificate_${username}.PNG" class="btn primary" style="text-decoration:none;">Download PNG</a>
             </div>
         `;
     }
