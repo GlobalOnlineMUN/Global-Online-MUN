@@ -230,7 +230,7 @@
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(2)">← Back</button>
-    <button class="btn-nav btn-next" onclick="showModule(4)">Module 4 →</button>
+    <button class="btn-nav btn-next" onclick="showModule(4)">Module 4: Research →</button>
   </div>
 </div>
 
@@ -270,10 +270,10 @@
     <strong>Exercise:</strong> Write a one-paragraph position paper summary for your assigned country and topic. Ensure it includes one fact and one proposed solution.
   </div>
 
-  <div class="nav-buttons">
-    <button class="btn-nav btn-prev" onclick="showModule(3)">← Back</button>
-    <button class="btn-nav btn-next" onclick="showModule(5)">Module 5 →</button>
-  </div>
+    <div class="nav-buttons">
+        <button class="btn-nav btn-prev" onclick="showModule(3)">← Back</button>
+        <button class="btn-nav btn-next" onclick="showModule(5)">Module 5: Resolutions →</button>
+    </div>
 </div>
 
 <div id="module-5" class="module-container">
@@ -315,7 +315,7 @@
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(4)">← Back</button>
-    <button class="btn-nav btn-next" onclick="showModule(6)">Module 6 →</button>
+    <button class="btn-nav btn-next" onclick="showModule(6)">Module 6: Negotiation →</button>
   </div>
 </div>
 
@@ -350,7 +350,7 @@
 
   <div class="nav-buttons">
     <button class="btn-nav btn-prev" onclick="showModule(5)">← Back</button>
-    <button class="btn-nav btn-next" onclick="showModule(7)">Module 7 →</button>
+    <button class="btn-nav btn-next" onclick="showModule(7)">Module 7: Prep →</button>
   </div>
 </div>
 
@@ -543,116 +543,9 @@
   </form>
 </div>
 
+<script src="script.js"></script>
 <script>
-  function showModule(m) {
-  const email = localStorage.getItem("currentStudentEmail");
-  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
-  const userIndex = participants.findIndex(p => p.email === email);
-
-  if (userIndex !== -1) {
-    participants[userIndex].currentModule = "Module " + m;
-    localStorage.setItem("gomunParticipants", JSON.stringify(participants));
-  }
-
-  // UI Switch
-  document.querySelectorAll('.module-container').forEach(div => {
-    div.style.display = 'none';
-    div.classList.remove('active-module');
-  });
-  
-  const target = document.getElementById('module-' + m);
-  if (target) {
-    target.style.display = 'block';
-    target.classList.add('active-module');
-  }
-  window.scrollTo(0,0);
-}
-
-
-  // Visual switching logic
-  document.querySelectorAll('.module-container').forEach(div => div.classList.remove('active-module'));
-  document.getElementById('module-' + m).classList.add('active-module');
-  window.scrollTo(0,0);
-}
-
- function submitExam() {
-  const form = document.getElementById('examForm');
-  const formData = new FormData(form);
-  let score = 0;
-  
-  for (let i = 1; i <= 20; i++) {
-    if (formData.get('q' + i) === 'correct') { score++; }
-  }
-
-  const currentUser = localStorage.getItem("username");
-  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
-  const userIndex = participants.findIndex(p => p.fullName === currentUser);
-
-  // Check if passed (70% = 14 marks)
-  if (score >= 14) {
-    if (userIndex !== -1) {
-      participants[userIndex].examScore = score + "/20";
-      participants[userIndex].completed = true;
-      localStorage.setItem("gomunParticipants", JSON.stringify(participants));
-    }
-
-    // Trigger the certificate generation
-    generateCertificate(currentUser); 
-    
-    alert(`🎉 Success! Score: ${score}/20. Your certificate is now available in the Certificates tab.`);
-    window.location.href = "certificates.html"; 
-  } else {
-    alert(`Score: ${score}/20. You need 14 to pass. Don't worry, review the modules and try again!`);
-  }
-}
-
-
-  // Save the score to the participant's record
-  const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
-  const currentUser = localStorage.getItem("username");
-  const userIndex = participants.findIndex(p => p.fullName === currentUser || p.email === currentUser);
-
-  
-}
-
-// Keep these functions OUTSIDE of submitExam so they can be reused
-function generateCertificate(userName) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    
-    img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        
-        // Font Settings (Matching your certificate style)
-        ctx.font = 'italic 70px "Times New Roman"'; 
-        ctx.fillStyle = '#1c2e4a'; 
-        ctx.textAlign = 'center';
-        
-        // Draw the name. I changed 850 to 890 based on your template's layout.
-        ctx.fillText(userName, canvas.width / 2, 890); 
-        
-        const certData = canvas.toDataURL('image/png');
-        saveCertificateToUser(certData);
-    };
-    
-    // Note: GitHub is case-sensitive! Ensure it's .PNG or .png exactly as uploaded.
-    img.src = 'certificate-template.PNG'; 
-}
-
-function saveCertificateToUser(certData) {
-    const username = localStorage.getItem("username");
-    const certEntry = {
-        date: new Date().toLocaleDateString(),
-        image: certData
-    };
-    // We'll store it under a clean key for the user's dashboard to find
-    localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
-}
-  <script>
-  // This version handles the exam and certificate generation
+  // Finalized logic for handling everything inside this page
   function submitExam() {
     const form = document.getElementById('examForm');
     const formData = new FormData(form);
@@ -672,17 +565,14 @@ function saveCertificateToUser(certData) {
         participants[userIndex].completed = true;
         localStorage.setItem("gomunParticipants", JSON.stringify(participants));
       }
-      
-      // Call the generation function (ensure this is in script.js or defined here)
       generateCertificate(currentUser); 
-      alert(`🎉 Success! Score: ${score}/20. Your certificate is now available.`);
+      alert(`🎉 Success! Score: ${score}/20. Your certificate is ready.`);
       window.location.href = "certificates.html"; 
     } else {
       alert(`Score: ${score}/20. You need 14 to pass. Try again!`);
     }
   }
 
-  // Helper for the certificate
   function generateCertificate(userName) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -701,11 +591,9 @@ function saveCertificateToUser(certData) {
       img.src = 'certificate-template.PNG'; 
   }
 
-  // IMPORTANT: On load, show Module 1 using the function from script.js
+  // Ensure Module 1 is shown on page load
   document.addEventListener("DOMContentLoaded", () => {
-    if (typeof showModule === "function") {
-      showModule(1);
-    }
+    showModule(1);
   });
 </script>
 </body>
