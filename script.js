@@ -7,13 +7,38 @@ function saveParticipants(data) {
   localStorage.setItem("gomunParticipants", JSON.stringify(data));
 }
 
-// --- Academy Registration Logic ---
+// --- Fixed Registration Logic ---
 const registrationForm = document.getElementById("registerForm");
 if (registrationForm) {
   registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
+    
     const fullName = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
+
+    // 1. Identify the user
+    localStorage.setItem("username", fullName); 
+    localStorage.setItem("currentStudentEmail", email);
+    localStorage.setItem("gomunRole", "user");
+
+    // 2. Initialize progress
+    const participant = {
+      fullName: fullName,
+      email: email,
+      currentModule: "Module 1", // Starts them here
+      completed: false,
+      examScore: "N/A"
+    };
+
+    const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+    data.push(participant);
+    localStorage.setItem("gomunParticipants", JSON.stringify(data));
+
+    // 3. Force Redirect
+    alert("Welcome to the Academy, " + fullName + "!");
+    window.location.href = "academy-content.html"; 
+  });
+}
 
     // Save user info so the rest of the app knows who is logged in
     localStorage.setItem("username", fullName); 
