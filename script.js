@@ -139,9 +139,7 @@ function deleteParticipant(i) {
 }
 
 // --- Certificate Loading ---
-
 function loadUserCertificates() {
-    // Try username first, then fallback to currentStudentEmail if name is missing
     const username = localStorage.getItem("username");
     const container = document.getElementById("certContainer");
     const msg = document.getElementById("noCertMsg");
@@ -157,16 +155,13 @@ function loadUserCertificates() {
             
             container.innerHTML = `
                 <div class="cert-card" style="margin-top:20px;">
-                    <img src="${cert.image}" style="width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:10px; border: 1px solid #ddd;">
+                    <img src="${cert.image}" style="width: 100%; max-width: 800px; border: 1px solid #ddd;">
                     <br><br>
-                    <div style="display:flex; gap:10px; justify-content:center;">
-                        <a href="${cert.image}" download="GOMUN_Certificate.png" class="btn-nav btn-next" style="text-decoration:none;">Download PNG</a>
-                        <button onclick="downloadPDF()" class="btn-nav btn-prev">Download PDF</button>
-                    </div>
+                    <a href="${cert.image}" download="GOMUN_Certificate.png" class="btn-nav btn-next">Download Certificate</a>
                 </div>
             `;
         } catch (e) {
-            console.error("Error parsing certificate data", e);
+            console.error("Error loading certificate:", e);
         }
     }
 }
