@@ -545,15 +545,29 @@
 
 <script>
   function showModule(m) {
-  // Update current module in storage
+  const email = localStorage.getItem("currentStudentEmail");
   const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
-  const currentUser = localStorage.getItem("username"); // Matches the username used at login
-  
-  const userIndex = participants.findIndex(p => p.fullName === currentUser || p.email === currentUser);
+  const userIndex = participants.findIndex(p => p.email === email);
+
   if (userIndex !== -1) {
     participants[userIndex].currentModule = "Module " + m;
     localStorage.setItem("gomunParticipants", JSON.stringify(participants));
   }
+
+  // UI Switch
+  document.querySelectorAll('.module-container').forEach(div => {
+    div.style.display = 'none';
+    div.classList.remove('active-module');
+  });
+  
+  const target = document.getElementById('module-' + m);
+  if (target) {
+    target.style.display = 'block';
+    target.classList.add('active-module');
+  }
+  window.scrollTo(0,0);
+}
+
 
   // Visual switching logic
   document.querySelectorAll('.module-container').forEach(div => div.classList.remove('active-module'));
