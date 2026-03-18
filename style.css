@@ -548,3 +548,32 @@ nav .btn-logout:active {
   box-shadow: 0 12px 25px rgba(29, 78, 216, 0.2);
 }
 
+/* Navigation Pill Style */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.links a {
+  background: #1d4ed8; /* Blue background */
+  color: white !important; /* White text */
+  padding: 8px 18px;
+  border-radius: 25px; /* Makes it look like a pill/circle */
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border: 2px solid #1d4ed8;
+  margin-left: 0 !important; /* Resetting your old margin */
+}
+
+.links a:hover {
+  background: #1e40af;
+  transform: scale(1.05);
+}
+
+/* Hide the duplicate credentials section on Index.html */
+#home-certificates, #index-credentials {
+  display: none !important;
+}
+
