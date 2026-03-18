@@ -8,57 +8,55 @@ function saveParticipants(data) {
 }
 
 // --- Academy Registration Logic ---
-// This replaces your old form listener to include the redirection to Module 1
 const registrationForm = document.getElementById("registerForm");
 if (registrationForm) {
   registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    
+    const username = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
+
     const participant = {
-      fullName: document.getElementById("fullName").value,
-      email: document.getElementById("email").value,
+      fullName: username,
+      email: email,
       phone: document.getElementById("phone").value,
       school: document.getElementById("school").value,
       experience: document.getElementById("experience").value,
       reason: document.getElementById("reason").value,
-      currentModule: 1, // Track progress
+      currentModule: 1,
       completed: false,
-      hours: 0
+      examScore: "N/A"
     };
 
     const data = getParticipants();
     data.push(participant);
     saveParticipants(data);
     
-    // Store email to track who is currently signed in for the session
-    localStorage.setItem("currentStudentEmail", participant.email);
+    localStorage.setItem("username", username);
+    localStorage.setItem("currentStudentEmail", email);
 
     alert("✅ Registration successful! Welcome to the Academy.");
-    window.location.href = "academy-content.html"; // Redirect to curriculum
+    window.location.href = "academy-content.html";
   });
 }
 
 // --- Academy Module Navigation ---
 function showModule(moduleNumber) {
-    // Hide all modules
     document.querySelectorAll('.module-container').forEach(m => {
         m.style.display = 'none';
         m.classList.remove('active-module');
     });
     
-    // Show the selected one
     const target = document.getElementById('module-' + moduleNumber);
     if (target) {
         target.style.display = 'block';
         target.classList.add('active-module');
-        window.scrollTo(0, 0); // Jump to top on mobile
+        window.scrollTo(0, 0);
         
-        // Update progress in the background
         const email = localStorage.getItem("currentStudentEmail");
         const data = getParticipants();
         const userIndex = data.findIndex(u => u.email === email);
         if (userIndex !== -1) {
-            data[userIndex].currentModule = moduleNumber;
+            data[userIndex].currentModule = "Module " + moduleNumber;
             saveParticipants(data);
         }
     }
@@ -69,7 +67,7 @@ function loadDashboard() {
   const table = document.getElementById("participantsTable");
   if (!table) return;
   
-  const data = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
+  const data = getParticipants();
   table.innerHTML = ""; 
 
   data.forEach((p, index) => {
@@ -77,22 +75,15 @@ function loadDashboard() {
     row.innerHTML = `
       <td>${p.fullName}</td>
       <td>${p.email}</td>
-      <td>${p.currentModule || "Not Started"}</td> <td>${p.examScore || "Pending"}</td>        <td>${p.completed ? "✅ Passed" : "⏳ Learning"}</td>
+      <td>${p.currentModule || "Not Started"}</td> 
+      <td>${p.examScore || "Pending"}</td>        
+      <td>${p.completed ? "✅ Passed" : "⏳ Learning"}</td>
       <td>
-        <button onclick="deleteParticipant(${index})" style="background:#dc2626; color:white;">Remove</button>
+        <button onclick="deleteParticipant(${index})" style="background:#dc2626; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Remove</button>
       </td>
     `;
     table.appendChild(row);
   });
-}
-
-
-function markComplete(i) {
-  const data = getParticipants();
-  data[i].completed = true;
-  data[i].hours = 10;
-  saveParticipants(data);
-  loadDashboard();
 }
 
 function deleteParticipant(i) {
@@ -103,131 +94,81 @@ function deleteParticipant(i) {
   loadDashboard();
 }
 
-function editParticipant(i) {
-  const data = getParticipants();
-  const p = data[i];
-  const fullNameNew = prompt("Edit Full Name:", p.fullName);
-  const emailNew = prompt("Edit Email:", p.email);
-  const schoolNew = prompt("Edit School:", p.school);
-  if (fullNameNew && emailNew && schoolNew) {
-    p.fullName = fullNameNew;
-    p.email = emailNew;
-    p.school = schoolNew;
-    saveParticipants(data);
-    loadDashboard();
-  }
+// --- DYNAMIC CERTIFICATE GENERATION ---
+// This uses your uploaded template and writes the user's name on it
+function generateCertificate(userName) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.crossOrigin = "anonymous"; // Prevents security errors on some browsers
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        // Font Settings
+        ctx.font = 'italic 70px "Times New Roman"'; // Formal font for the name
+        ctx.fillStyle = "#1c2e4a"; // Matching the dark blue in your logo
+        ctx.textAlign = 'center';
+        
+        // Position the name (Adjust 890 to align perfectly with the blank line)
+        ctx.fillText(userName, canvas.width / 2, 890); 
+        
+        const certData = canvas.toDataURL('image/png');
+        saveCertificateToUser(certData);
+    };
+    // MUST match your GitHub file name exactly
+    img.src = 'certificate-template.png'; 
 }
 
-// --- Certificates & PDF Generation ---
-function loadCertificates() {
-  const list = document.getElementById("certList");
-  if (!list) return;
-  const data = getParticipants();
-  list.innerHTML = "";
-  data.filter(p => p.completed).forEach((p) => {
-    const div = document.createElement("div");
-    div.className = "cert";
-    div.innerHTML = `
-      <h4>${p.fullName}</h4>
-      <p>${p.hours} hours • GOMUN Academy</p>
-      <button onclick="generatePDF('${p.fullName}', ${p.hours})">
-        Download PDF
-      </button>
-    `;
-    list.appendChild(div);
-  });
+function saveCertificateToUser(certData) {
+    const username = localStorage.getItem("username");
+    const certEntry = {
+        date: new Date().toLocaleDateString(),
+        image: certData
+    };
+    // Save to a specific key for this user
+    localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
 }
-
-function generatePDF(fullName, hours) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("landscape");
-  
-  // Design elements
-  doc.setDrawColor(29, 78, 216);
-  doc.setLineWidth(2);
-  doc.rect(10, 10, 277, 190); 
-
-  doc.setFontSize(30);
-  doc.setTextColor(29, 78, 216);
-  doc.text("Certificate of Completion", 148, 50, { align: "center" });
-  
-  doc.setFontSize(18);
-  doc.setTextColor(30, 41, 59);
-  doc.text("This is to certify that", 148, 80, { align: "center" });
-  
-  doc.setFontSize(24);
-  doc.text(fullName, 148, 100, { align: "center" });
-  
-  doc.setFontSize(16);
-  doc.text(`has successfully completed ${hours} hours of training at`, 148, 120, { align: "center" });
-  
-  doc.setFontSize(22);
-  doc.text("GOMUN Academy", 148, 140, { align: "center" });
-  
-  doc.setFontSize(12);
-  doc.text("Signed: Secretary-General, GOMUN", 40, 175);
-  doc.text(new Date().toLocaleDateString(), 230, 175);
-
-  doc.save(`${fullName}_GOMUN_Certificate.pdf`);
-}
-
-// --- Initialization & UI Observers ---
-document.addEventListener("DOMContentLoaded", () => {
-  loadDashboard();
-  loadCertificates();
-
-  // Reveal animations for sections
-  const sections = document.querySelectorAll("section");
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
-    },
-    { threshold: 0.1 }
-  );
-  sections.forEach(section => observer.observe(section));
-
-  // Auto-start Module 1 if we are on the academy content page
-  if (document.getElementById('module-1')) {
-      showModule(1);
-  }
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const role = localStorage.getItem("gomunRole");
-  const adminLink = document.getElementById("adminLink");
-  const loginBtn = document.getElementById("loginBtn");
-
-  if (role === "admin") {
-    // If Admin: Show the dashboard link
-    if (adminLink) adminLink.style.display = "inline-block";
-    if (loginBtn) loginBtn.textContent = "Admin Logout";
-  } else if (role === "user") {
-    // If Normal User: Keep dashboard hidden
-    if (adminLink) adminLink.style.display = "none";
-    if (loginBtn) loginBtn.textContent = "Logout";
-  }
-});
 
 function loadUserCertificates() {
     const username = localStorage.getItem("username");
     const container = document.getElementById("certContainer");
     const msg = document.getElementById("noCertMsg");
-    const certs = JSON.parse(localStorage.getItem("gomun_certs_" + username)) || [];
+    if (!container) return;
 
-    if (certs.length > 0) {
-        msg.style.display = "none";
-        certs.forEach(cert => {
-            const div = document.createElement("div");
-            div.className = "cert-card";
-            div.innerHTML = `
-                <img src="${cert.image}" style="width: 100%; max-width: 500px; border: 5px solid gold; border-radius: 10px;">
-                <p>Awarded on: ${cert.date}</p>
-                <a href="${cert.image}" download="GOMUN_Certificate.png" class="btn-nav">Download PDF</a>
-            `;
-            container.appendChild(div);
-        });
+    const cert = JSON.parse(localStorage.getItem("gomun_cert_" + username));
+
+    if (cert) {
+        if (msg) msg.style.display = "none";
+        container.innerHTML = `
+            <div class="cert-card" style="margin-top:20px;">
+                <img src="${cert.image}" style="width: 100%; max-width: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:5px;">
+                <br><br>
+                <a href="${cert.image}" download="GOMUN_Certificate_${username}.png" class="btn-nav" style="text-decoration:none; background:#1d4ed8; color:white; padding:10px 20px; border-radius:5px;">Download Certificate</a>
+            </div>
+        `;
     }
 }
 
+// --- Initialization ---
+document.addEventListener("DOMContentLoaded", () => {
+  loadDashboard();
+  loadUserCertificates();
 
+  const role = localStorage.getItem("gomunRole");
+  const adminLink = document.getElementById("adminLink");
+  const loginBtn = document.getElementById("loginBtn");
+
+  if (role === "admin") {
+    if (adminLink) adminLink.style.display = "inline-block";
+    if (loginBtn) loginBtn.textContent = "Admin Logout";
+  } else if (role === "user") {
+    if (loginBtn) loginBtn.textContent = "Logout";
+  }
+
+  if (document.getElementById('module-1')) {
+      showModule(1);
+  }
+});
