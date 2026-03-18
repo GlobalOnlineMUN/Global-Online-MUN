@@ -8,10 +8,10 @@ function saveParticipants(data) {
 }
 
 // --- Academy Registration Logic ---
-const registrationForm = document.getElementById("registerForm");
-if (registrationForm) {
-  registrationForm.addEventListener("submit", function (e) {
+document.addEventListener("submit", function (e) {
+  if (e.target && e.target.id === "registerForm") {
     e.preventDefault();
+    
     const username = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
 
@@ -36,8 +36,8 @@ if (registrationForm) {
 
     alert("✅ Registration successful! Welcome to the Academy.");
     window.location.href = "academy-content.html";
-  });
-}
+  }
+});
 
 // --- Academy Module Navigation ---
 function showModule(moduleNumber) {
@@ -62,7 +62,7 @@ function showModule(moduleNumber) {
     }
 }
 
-// --- Dashboard Management (Admin Functions) ---
+// --- Dashboard Management ---
 function loadDashboard() {
   const table = document.getElementById("participantsTable");
   if (!table) return;
@@ -94,81 +94,14 @@ function deleteParticipant(i) {
   loadDashboard();
 }
 
-// --- DYNAMIC CERTIFICATE GENERATION ---
-// This uses your uploaded template and writes the user's name on it
-function generateCertificate(userName) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    
-    img.crossOrigin = "anonymous"; // Prevents security errors on some browsers
-    img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        
-        // Font Settings
-        ctx.font = 'italic 70px "Times New Roman"'; // Formal font for the name
-        ctx.fillStyle = "#1c2e4a"; // Matching the dark blue in your logo
-        ctx.textAlign = 'center';
-        
-        // Position the name (Adjust 890 to align perfectly with the blank line)
-        ctx.fillText(userName, canvas.width / 2, 890); 
-        
-        const certData = canvas.toDataURL('image/png');
-        saveCertificateToUser(certData);
-    };
-    // MUST match your GitHub file name exactly
-    img.src = 'certificate-template.png'; 
-}
-
-function saveCertificateToUser(certData) {
-    const username = localStorage.getItem("username");
-    const certEntry = {
-        date: new Date().toLocaleDateString(),
-        image: certData
-    };
-    // Save to a specific key for this user
-    localStorage.setItem("gomun_cert_" + username, JSON.stringify(certEntry));
-}
-
-function loadUserCertificates() {
-    const username = localStorage.getItem("username");
-    const container = document.getElementById("certContainer");
-    const msg = document.getElementById("noCertMsg");
-    if (!container) return;
-
-    const cert = JSON.parse(localStorage.getItem("gomun_cert_" + username));
-
-    if (cert) {
-        if (msg) msg.style.display = "none";
-        container.innerHTML = `
-            <div class="cert-card" style="margin-top:20px;">
-                <img src="${cert.image}" style="width: 100%; max-width: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-radius:5px;">
-                <br><br>
-                <a href="${cert.image}" download="GOMUN_Certificate_${username}.png" class="btn-nav" style="text-decoration:none; background:#1d4ed8; color:white; padding:10px 20px; border-radius:5px;">Download Certificate</a>
-            </div>
-        `;
-    }
-}
-
 // --- Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
   loadDashboard();
-  loadUserCertificates();
-
+  
   const role = localStorage.getItem("gomunRole");
   const adminLink = document.getElementById("adminLink");
-  const loginBtn = document.getElementById("loginBtn");
-
-  if (role === "admin") {
-    if (adminLink) adminLink.style.display = "inline-block";
-    if (loginBtn) loginBtn.textContent = "Admin Logout";
-  } else if (role === "user") {
-    if (loginBtn) loginBtn.textContent = "Logout";
+  
+  if (role === "admin" && adminLink) {
+    adminLink.style.display = "inline-block";
   }
-
-  if (document.getElementById('module-1')) {
-      showModule(1);
-  }
-}); //
+});
