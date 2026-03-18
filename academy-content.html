@@ -546,7 +546,7 @@
 <script src="script.js"></script>
 <script>
   // Finalized logic for handling everything inside this page
-  function submitExam() {
+    function submitExam() {
     const form = document.getElementById('examForm');
     const formData = new FormData(form);
     let score = 0;
@@ -559,28 +559,25 @@
     const participants = JSON.parse(localStorage.getItem("gomunParticipants")) || [];
     const userIndex = participants.findIndex(p => p.fullName === currentUser);
 
-        if (score >= 14) {
-      // Get the name exactly as it was stored during registration
-      const storedName = localStorage.getItem("username"); 
-      
+    if (score >= 14) {
       if (userIndex !== -1) {
         participants[userIndex].examScore = score + "/20";
         participants[userIndex].completed = true;
         localStorage.setItem("gomunParticipants", JSON.stringify(participants));
       }
       
-      // Use storedName here to ensure it matches the Certificates page check
-      generateCertificate(storedName); 
-      
-      alert(`🎉 Success! Score: ${score}/20. Redirecting to your certificate...`);
-      window.location.href = "certificates.html"; 
+      // Pass the score to the generator so it knows to redirect after saving
+      generateCertificate(currentUser, score); 
+    } else {
+      alert(`Score: ${score}/20. You need 14/20 to pass. Please review the modules and try again!`);
     }
+  }
 
-
-  function generateCertificate(userName) {
+  function generateCertificate(userName, score) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const img = new Image();
+      
       img.onload = function() {
           canvas.width = img.width;
           canvas.height = img.height;
@@ -589,13 +586,27 @@
           ctx.fillStyle = '#1c2e4a'; 
           ctx.textAlign = 'center';
           ctx.fillText(userName, canvas.width / 2, 890); 
+          
           const certData = canvas.toDataURL('image/png');
-          localStorage.setItem("gomun_cert_" + userName, JSON.stringify({date: new Date().toLocaleDateString(), image: certData}));
+          
+          // SAVE DATA
+          localStorage.setItem("gomun_cert_" + userName, JSON.stringify({
+            date: new Date().toLocaleDateString(), 
+            image: certData
+          }));
+
+          // ONLY REDIRECT NOW THAT SAVING IS DONE
+          alert(`🎉 Success! Score: ${score}/20. Your certificate has been generated.`);
+          window.location.href = "certificates.html"; 
       };
+
+      img.onerror = function() {
+          alert("Error loading certificate template. Please check if 'certificate-template.PNG' exists in your folder.");
+      };
+
       img.src = 'certificate-template.PNG'; 
   }
 
-  // Ensure Module 1 is shown on page load
   document.addEventListener("DOMContentLoaded", () => {
     showModule(1);
   });
