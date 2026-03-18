@@ -8,21 +8,27 @@ function saveParticipants(data) {
 }
 
 // --- Academy Registration Logic ---
-document.addEventListener("submit", function (e) {
-  if (e.target && e.target.id === "registerForm") {
+const registrationForm = document.getElementById("registerForm");
+if (registrationForm) {
+  registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    
-    const username = document.getElementById("fullName").value;
+    const fullName = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
 
+    // Save user info so the rest of the app knows who is logged in
+    localStorage.setItem("username", fullName); 
+    localStorage.setItem("currentStudentEmail", email);
+    localStorage.setItem("gomunRole", "user"); // Log them in automatically
+
+    // Save to participants list for the admin dashboard
     const participant = {
-      fullName: username,
+      fullName: fullName,
       email: email,
       phone: document.getElementById("phone").value,
       school: document.getElementById("school").value,
       experience: document.getElementById("experience").value,
       reason: document.getElementById("reason").value,
-      currentModule: 1,
+      currentModule: "Module 1",
       completed: false,
       examScore: "N/A"
     };
@@ -30,14 +36,11 @@ document.addEventListener("submit", function (e) {
     const data = getParticipants();
     data.push(participant);
     saveParticipants(data);
-    
-    localStorage.setItem("username", username);
-    localStorage.setItem("currentStudentEmail", email);
 
     alert("✅ Registration successful! Welcome to the Academy.");
-    window.location.href = "academy-content.html";
-  }
-});
+    window.location.href = "academy-content.html"; // This sends them to the lessons
+  });
+}
 
 // --- Academy Module Navigation ---
 function showModule(moduleNumber) {
