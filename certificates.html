@@ -44,7 +44,7 @@
   </div>
 </section>
 
-  <div class="mentorship-section" style="max-width: 800px; margin: 40px auto; padding: 30px; border-radius: 15px; background: #f0f7ff; border: 2px solid #1d4ed8; text-align: center;">
+  <div class="mentorshipAd" style="max-width: 800px; margin: 40px auto; padding: 30px; border-radius: 15px; background: #f0f7ff; border: 2px solid #1d4ed8; text-align: center;">
     <h2 style="color: #1d4ed8;">Level Up Your Diplomacy 🚀</h2>
     <p style="font-size: 1.1rem; color: #334155;">
         You've mastered the basics! Now, join the <strong>Council of Diplomats</strong> for specialized 1-on-1 training.</p>
@@ -57,10 +57,17 @@
     </div>
 
     <a href="Official information brochure.pdf" target="_blank" class="btn-nav btn-next" style="display: inline-block; padding: 15px 40px; text-decoration: none; font-size: 1.2rem; border-radius: 50px;">
-        View Training Brochure
+        View Official Brochure
     </a>
 </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Only show the ad if they actually finished the academy
+        if (localStorage.getItem("gomun_completed") === "true") {
+            document.getElementById("mentorshipAd").style.display = "block";
+        }
+    });
 <script>
   window.onload = function() {
     if (typeof loadUserCertificates === "function") {
