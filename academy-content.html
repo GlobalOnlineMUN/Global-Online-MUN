@@ -582,45 +582,48 @@
 
   // 3. CERTIFICATE GENERATOR (Fixed to be global so submitExam can see it)
   function generateCertificate(userName, score) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      
-      img.onload = function() {
-          // Set canvas size to match the template image
-          canvas.width = img.width;
-          canvas.height = img.height;
-          
-          // Draw the background
-          ctx.drawImage(img, 0, 0);
-          
-          // Style the text
-          ctx.font = 'italic 80px "Times New Roman"'; 
-          ctx.fillStyle = '#1c2e4a'; 
-          ctx.textAlign = 'center';
-          
-          // Draw the Name (adjust 440 based on your template's empty line)
-          ctx.fillText(userName, canvas.width / 2, 440);
-          
-          // Convert to data and save
-          const certData = canvas.toDataURL('image/png');
-          localStorage.setItem("gomun_cert_" + userName, JSON.stringify({
-              date: new Date().toLocaleDateString(), 
-              image: certData
-          }));
+    const img = new Image();
+    // Use a cross-origin setting to help mobile browsers process the pixels
+    img.crossOrigin = "anonymous"; 
+    
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        // Name Position: 440 (On the line)
+        ctx.font = 'italic 60px "Times New Roman"'; 
+        ctx.fillStyle = '#1c2e4a'; 
+        ctx.textAlign = 'center';
+        ctx.fillText(userName, canvas.width / 2, 440); 
+        
+        try {
+            const certData = canvas.toDataURL('image/png');
+            localStorage.setItem("gomun_cert_" + userName, JSON.stringify({
+                date: new Date().toLocaleDateString(), 
+                image: certData
+            }));
 
-          // ONLY NOW REDIRECT
-          alert(`🎉 Outstanding! Score: ${score}/20. Your certificate is ready.`);
-          window.location.href = "certificates.html"; 
-      };
+            // MARK AS COMPLETED (This unlocks the brochure)
+            localStorage.setItem("gomun_completed", "true");
 
-      // Error handling if the image fails
-      img.onerror = function() {
-          alert("Error: 'certificate-template.PNG' not found. Please ensure the image is in the same folder.");
-      };
+            alert(`🎉 Success! Score: ${score}/20. View your certificate now.`);
+            window.location.href = "certificates.html";
+        } catch (err) {
+            console.error("Canvas Error:", err);
+            alert("Mobile Security Error: Please try using 'Chrome' or 'Safari' specifically.");
+        }
+    };
 
-      img.src = 'certificate-template.PNG'; 
-  }
+    img.onerror = function() {
+        alert("Image Error: Make sure 'certificate-template.PNG' is in your main folder.");
+    };
+
+    img.src = 'certificate-template.PNG'; 
+}
 </script>
 </body>
 </html>
