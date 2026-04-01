@@ -583,47 +583,46 @@
   // 3. CERTIFICATE GENERATOR (Fixed to be global so submitExam can see it)
   function generateCertificate(userName, score) {
     const img = new Image();
-    // Use a cross-origin setting to help mobile browsers process the pixels
-    img.crossOrigin = "anonymous"; 
+    
+    // 1. Tell the phone this image is safe/internal
+    img.setAttribute('crossOrigin', 'anonymous'); 
     
     img.onload = function() {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         
-        canvas.width = img.width;
-        canvas.height = img.height;
+        // 2. Use the Image's natural dimensions to avoid blurry text on mobile
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
         ctx.drawImage(img, 0, 0);
         
-        // Name Position: 440 (On the line)
+        // 3. Name Styling & Position (440 is the blank line)
         ctx.font = 'italic 60px "Times New Roman"'; 
         ctx.fillStyle = '#1c2e4a'; 
         ctx.textAlign = 'center';
         ctx.fillText(userName, canvas.width / 2, 440); 
         
         try {
+            // 4. Save and Redirect
             const certData = canvas.toDataURL('image/png');
             localStorage.setItem("gomun_cert_" + userName, JSON.stringify({
-                date: new Date().toLocaleDateString(), 
                 image: certData
             }));
-
-            // MARK AS COMPLETED (This unlocks the brochure)
             localStorage.setItem("gomun_completed", "true");
 
-            alert(`🎉 Success! Score: ${score}/20. View your certificate now.`);
+            alert("Certificate Generated Successfully!");
             window.location.href = "certificates.html";
         } catch (err) {
-            console.error("Canvas Error:", err);
-            alert("Mobile Security Error: Please try using 'Chrome' or 'Safari' specifically.");
+            // If it still fails, the phone's memory is full. 
+            console.error(err);
+            alert("Mobile Memory Full: Please close other tabs or try on a computer.");
         }
     };
 
-    img.onerror = function() {
-        alert("Image Error: Make sure 'certificate-template.PNG' is in your main folder.");
-    };
-
-    img.src = 'certificate-template.PNG'; 
+    // 5. Add a random 'version' to the image URL to force the phone to reload it
+    img.src = 'certificate-template.PNG?v=' + Date.now(); 
 }
+
 </script>
 </body>
 </html>
