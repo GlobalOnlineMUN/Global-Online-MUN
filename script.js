@@ -1,48 +1,52 @@
-// --- Helper Functions ---
+// --- FIXED Helper Functions ---
 function getParticipants() {
   return JSON.parse(localStorage.getItem("gomunParticipants")) || [];
 }
 
 function saveParticipants(data) {
-  localStorage.setItem("gomunRole", "user");
+  // FIX: Actually save the data to the correct key!
+  localStorage.setItem("gomunParticipants", JSON.stringify(data));
 }
 
-// --- Bulletproof Academy Registration Logic ---
+// --- Fixed Academy Registration Logic ---
 const registrationForm = document.getElementById("registerForm");
 
 if (registrationForm) {
   registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
     
-    // 1. Safely get values
-    const fullName = document.getElementById("fullName")?.value || "Student";
-    const email = document.getElementById("email")?.value || "no-email@gomun.org";
-    const phone = document.getElementById("phone")?.value || "";
-    const school = document.getElementById("school")?.value || "";
-    const experience = document.getElementById("experience")?.value || "Beginner";
-    const reason = document.getElementById("reason")?.value || "";
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = "gomun" + Math.floor(Math.random() * 1000); // Generate a temp password or use a default
 
-    // 2. Set Session Data
-    localStorage.setItem("username", fullName); 
-    localStorage.setItem("currentStudentEmail", email);
-    localStorage.setItem("gomunRole", "user"); 
-
-    // 3. Update Participant List
-    const participant = {
+    // 1. Update Participant List for Admin Dashboard
+    const participants = getParticipants();
+    const newParticipant = {
       fullName: fullName,
       email: email,
-      phone: phone,
-      school: school,
-      experience: experience,
-      reason: reason,
       currentModule: "Module 1",
       completed: false,
       examScore: "N/A"
     };
+    participants.push(newParticipant);
+    saveParticipants(participants);
 
-    let data = getParticipants();
-    data.push(participant);
-    saveParticipants(data);
+    // 2. IMPORTANT: Add them to the LOGIN database so they can log back in
+    const users = JSON.parse(localStorage.getItem("gomunUsers")) || [];
+    if (!users.find(u => u.user === fullName)) {
+        users.push({ user: fullName, pass: "123" }); // Default password '123' so they can return
+        localStorage.setItem("gomunUsers", JSON.stringify(users));
+    }
+
+    // 3. Set Session Data
+    localStorage.setItem("username", fullName); 
+    localStorage.setItem("gomunRole", "user"); 
+
+    alert("Registration Successful! You can now access the curriculum.");
+    window.location.href = "academy-content.html";
+  });
+}
+
 
     // 4. THE REDIRECT
     alert("✅ Registration successful! Welcome to Module 1.");
