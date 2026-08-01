@@ -17,7 +17,6 @@ if (registrationForm) {
     
     const fullName = document.getElementById("fullName").value.trim();
     const email = document.getElementById("email").value.trim();
-    const password = "gomun" + Math.floor(Math.random() * 1000); // Generate a temp password or use a default
 
     // 1. Update Participant List for Admin Dashboard
     const participants = getParticipants();
@@ -31,28 +30,23 @@ if (registrationForm) {
     participants.push(newParticipant);
     saveParticipants(participants);
 
-    // 2. IMPORTANT: Add them to the LOGIN database so they can log back in
+    // 2. Add them to the LOGIN database so they can log back in
     const users = JSON.parse(localStorage.getItem("gomunUsers")) || [];
     if (!users.find(u => u.user === fullName)) {
-        users.push({ user: fullName, pass: "123" }); // Default password '123' so they can return
+        users.push({ user: fullName, pass: "123" }); // Default temporary password
         localStorage.setItem("gomunUsers", JSON.stringify(users));
     }
 
-    // 3. Set Session Data
+    // 3. Set Session Data & Redirect
     localStorage.setItem("username", fullName); 
     localStorage.setItem("gomunRole", "user"); 
+    localStorage.setItem("currentStudentEmail", email); // Essential for progress tracking!
 
-    alert("Registration Successful! You can now access the curriculum.");
+    alert("✅ Registration successful! Welcome to Module 1.");
     window.location.href = "academy-content.html";
   });
 }
 
-
-    // 4. THE REDIRECT
-    alert("✅ Registration successful! Welcome to Module 1.");
-    window.location.href = "academy-content.html"; 
-  });
-}
 
 // --- Academy Module Navigation ---
 function showModule(moduleNumber) {
